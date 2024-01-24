@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 class WorkoutServiceTest {
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
-    private WorkoutService workoutService = new WorkoutService(workoutRepository);
+    private WorkoutService workoutService = new WorkoutService(workoutRepository);private final UUID idService = mock(UUID.class);
 
     @Test
     void getAll() {
@@ -72,4 +73,32 @@ class WorkoutServiceTest {
         assertEquals(workoutToUpdate, updatedWorkout);
         verify(workoutService).editWorkout(workoutToUpdate);
     }
+
+
+    @Test
+    void createWorkoutTest() {
+        //ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+        when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(null));
+
+        //ACT
+        Workout expect = workoutService.createWorkout(new RequestWorkout("test1", "test1"));
+
+
+        //ASSERT
+        verify(workoutRepository, times(1)).save(expect);
+    }
+
+    @Test
+    void createWorkout_whenWorkoutAlreadyExist_ThenException() {
+        //ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+
+        //ACT
+        when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(workout));
+
+        //ASSERT
+        assertThrows(IllegalArgumentException.class, () ->
+                workoutService.createWorkout(new RequestWorkout("test1", "test1")));
+        }
 }

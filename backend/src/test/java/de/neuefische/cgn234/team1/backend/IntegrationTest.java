@@ -147,4 +147,23 @@ class IntegrationTest {
         // ASSERT
         assertEquals(400, result.getResponse().getStatus());
     }
+
+    @Test
+    @DirtiesContext
+    void createWorkoutTest() throws Exception {
+        //ACT
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {"id": "1",
+                                "workoutName": "test1",
+                                "workoutDescription": "test1"
+                                                       }
+                                                       """))
+                //ASSERT
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        assertEquals(201, result.getResponse().getStatus());
+    }
 }
