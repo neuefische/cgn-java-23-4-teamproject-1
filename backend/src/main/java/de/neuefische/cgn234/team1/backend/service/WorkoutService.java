@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -17,5 +18,7 @@ public class WorkoutService {
        return workoutRepository.findAll();
    }
 
-
+    public Workout getById(String id) {
+        return workoutRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    }
 }
