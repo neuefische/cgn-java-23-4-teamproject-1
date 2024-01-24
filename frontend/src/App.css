@@ -16,6 +16,9 @@ body{
     display: flex;
     flex-wrap: wrap;
     color: antiquewhite;
+
+    height: 100%;
+    width: 100%;
 }
 
 form {
@@ -88,11 +91,6 @@ textarea {
     inner-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-body {
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
 
 html {
 
@@ -197,11 +195,4 @@ html {
 .WorkoutEdit-save:active {
     transform: translateY(2px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-
-label {
-    font-size: x-large;
-    font-weight: 600;
-    color: #0087d0;
 }

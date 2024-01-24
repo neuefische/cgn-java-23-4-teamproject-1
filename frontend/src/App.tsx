@@ -18,7 +18,7 @@ function App() {
     }
 
     function addWorkout(workout: WorkoutRequest) {
-        axios.post("/api/workouts/add", {
+        axios.post("/api/workouts", {
             workoutName: workout.workoutName,
             workoutDescription: workout.workoutDescription
         }).then(response =>
