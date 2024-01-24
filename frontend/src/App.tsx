@@ -6,6 +6,7 @@ import {Route, Routes} from "react-router-dom";
 import WorkoutGallery from "./components/WorkoutGallery.tsx";
 import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 import WorkoutDetail from "./components/WorkoutDetail.tsx";
+import WorkoutEdit from "./components/WorkoutEdit.tsx";
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
                 <Route path={"/"} element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
+                <Route path={"/workouts/:id/edit"} element={<WorkoutEdit />}/>
             </Routes>
         </>
     )

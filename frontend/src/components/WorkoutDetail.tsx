@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Workout} from "../model/Workout.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -21,10 +21,17 @@ export default function WorkoutDetail() {
         fetchData()
     }, [])
 
+    const navigate = useNavigate();
+
+    function goToEditPage() {
+        navigate(`/workouts/${id}/edit`);
+    }
+
     return (
         <div>
             <div>Name: <em>{workoutName}</em></div>
             <div>Description: <em>{workoutDescription}</em></div>
+            <button onClick={goToEditPage} className={"editButton"}>Edit</button>
         </div>
     )
 }
