@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -106,5 +105,31 @@ class IntegrationTest {
         assertEquals(200, result.getResponse().getStatus());
     }
 
+
+    @Test
+    @DirtiesContext
+    void createWorkoutTest() throws Exception {
+
+        //GIVEN
+
+
+        //ACT
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {"id": "1",
+                                "workoutName": "test1",
+                                "workoutDescription": "test1"
+                                                       }
+                                                       """))
+                //ASSERT
+                .andExpect(status().isCreated())
+                .andReturn();
+
+
+        assertEquals(201, result.getResponse().getStatus());
+
+
+    }
 
 }
