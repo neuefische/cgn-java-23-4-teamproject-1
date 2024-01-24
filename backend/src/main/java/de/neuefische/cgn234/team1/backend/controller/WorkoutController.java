@@ -1,8 +1,10 @@
 package de.neuefische.cgn234.team1.backend.controller;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
+import de.neuefische.cgn234.team1.backend.model.dto.RequestWorkout;
 import de.neuefische.cgn234.team1.backend.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +19,12 @@ public class WorkoutController {
     @GetMapping
     public List<Workout> getAll() {
         return workoutService.getAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Workout createWorkout(@RequestBody RequestWorkout requestWorkout) {
+        return workoutService.createWorkout(requestWorkout);
     }
 
     @GetMapping("{id}")
