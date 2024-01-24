@@ -13,4 +13,5 @@
 body{
     background-color: black;
     background-image: linear-gradient(45grad,black, rgba(255, 255, 255, 0.12),black);
+    color: antiquewhite;
 }
