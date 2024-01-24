@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface WorkoutRepository extends MongoRepository<Workout, String> {
-
     Optional<Workout> findByWorkoutName(String workoutName);
 }

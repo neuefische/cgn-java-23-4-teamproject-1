@@ -15,29 +15,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class WorkoutServiceTest {
-
-
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
-    private final WorkoutService workoutService = new WorkoutService(workoutRepository);
-
-    private final UUID idService = mock(UUID.class);
-
+    private WorkoutService workoutService = new WorkoutService(workoutRepository);private final UUID idService = mock(UUID.class);
 
     @Test
     void getAll() {
         //ARRANGE
-        List<Workout> expected = List.of( new Workout("Beinpresse","Bewege an der Beinpresse ein paar gewichte"), new Workout("test1" ,"test1"));
+        List<Workout> expected = List.of(new Workout("Beinpresse", "Bewege an der Beinpresse ein paar gewichte"), new Workout("test1", "test1"));
         when(workoutRepository.findAll()).thenReturn(expected);
 
         //ACT
         List<Workout> actual = workoutService.getAll();
 
         //ASSERT
-
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
         verify(workoutRepository).findAll();
-
-
     }
 
     @Test
@@ -57,8 +49,6 @@ class WorkoutServiceTest {
 
     @Test
     void getWorkoutById_whenWorkoutNotExists_throwException() {
-        // ARRANGE
-
         // ACT & ASSERT
         assertThrows(NoSuchElementException.class, () ->
                 workoutService.getById("1"));
@@ -68,24 +58,36 @@ class WorkoutServiceTest {
         verifyNoMoreInteractions(workoutRepository);
     }
 
+    @Test
+    void updateWorkout_whenWorkoutUpdatesReturnsUpdatedWorkout() {
+        // ARRANGE
+        workoutService = mock(WorkoutService.class);
+        String workoutId = "1";
+        Workout workoutToUpdate = new Workout(workoutId, "test", "test");
+
+        when(workoutService.editWorkout(workoutToUpdate)).thenReturn(workoutToUpdate);
+
+        // ACT
+        Workout updatedWorkout = workoutService.editWorkout(workoutToUpdate);
+
+        // ASSERT
+        assertEquals(workoutToUpdate, updatedWorkout);
+        verify(workoutService).editWorkout(workoutToUpdate);
+    }
+
 
     @Test
     void createWorkoutTest() {
         //ARRANGE
         Workout workout = new Workout("1", "test1", "test1");
-
-        //ACT
         when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(null));
 
-
+        //ACT
         Workout expect = workoutService.createWorkout(new RequestWorkout("test1", "test1"));
 
 
         //ASSERT
-
         verify(workoutRepository, times(1)).save(expect);
-
-
     }
 
     @Test
@@ -96,12 +98,8 @@ class WorkoutServiceTest {
         //ACT
         when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(workout));
 
-
         //ASSERT
         assertThrows(IllegalArgumentException.class, () ->
                 workoutService.createWorkout(new RequestWorkout("test1", "test1")));
-
-
         }
-
 }

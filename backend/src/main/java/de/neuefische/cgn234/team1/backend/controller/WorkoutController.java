@@ -6,6 +6,7 @@ import de.neuefische.cgn234.team1.backend.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/workouts")
 @RequiredArgsConstructor
 public class WorkoutController {
-
     private final WorkoutService workoutService;
 
     @GetMapping
@@ -35,5 +35,14 @@ public class WorkoutController {
     @DeleteMapping("/{id}")
     public boolean deleteWorkout(@PathVariable String id) {
         return workoutService.deleteWorkout(id);
+    }
+
+    @PutMapping("{id}")
+    public Workout editWorkout(@PathVariable String id, @RequestBody Workout workout) {
+        if (!workout.id().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id in the url does not match the request body's id");
+        }
+
+        return workoutService.editWorkout(workout);
     }
 }

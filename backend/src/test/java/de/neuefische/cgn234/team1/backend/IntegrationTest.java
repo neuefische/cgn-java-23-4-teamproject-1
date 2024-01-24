@@ -20,13 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class IntegrationTest {
-
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private WorkoutRepository workoutRepository;
-
 
     @Test
     @DirtiesContext
@@ -48,11 +46,8 @@ class IntegrationTest {
                                        ]
                         """)).andReturn();
 
-                //ASSERT
-
-
+        //ASSERT
         assertEquals(200, result.getResponse().getStatus());
-
     }
 
     @Test
@@ -93,6 +88,7 @@ class IntegrationTest {
         // ASSERT
         assertEquals(200, result.getResponse().getStatus());
     }
+
     @Test
     void deleteWorkout_nonExistingWorkout_shouldReturnFalse() throws Exception {
         // ACT
@@ -105,14 +101,56 @@ class IntegrationTest {
         assertEquals(200, result.getResponse().getStatus());
     }
 
+    @Test
+    @DirtiesContext
+    void updateWorkout_whenPutNewWorkout_updatesCurrentWorkout() throws Exception {
+        // ARRANGE
+        Workout originalWorkout = new Workout("1", "test1", "test1");
+        workoutRepository.save(originalWorkout);
+
+        String updatedWorkoutJson = """
+                {
+                    "id": "1",
+                    "workoutName": "value2",
+                    "workoutDescription": "value2"
+                }
+                """;
+
+        // ACT
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/workouts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedWorkoutJson))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(updatedWorkoutJson))
+                .andReturn();
+
+        // ASSERT
+        assertEquals(200, result.getResponse().getStatus());
+    }
+
+    @Test
+    void update_shoudThrowBadRequestException_whenIdNotMatcherIdOdWorkout() throws Exception {
+        // ACT
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/workouts/123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "id": "1",
+                                    "workoutName": "value2",
+                                    "workoutDescription": "value2"
+                                }
+                                """
+                        ))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        // ASSERT
+        assertEquals(400, result.getResponse().getStatus());
+    }
 
     @Test
     @DirtiesContext
     void createWorkoutTest() throws Exception {
-
-        //GIVEN
-
-
         //ACT
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -122,14 +160,10 @@ class IntegrationTest {
                                 "workoutDescription": "test1"
                                                        }
                                                        """))
-                //ASSERT
                 .andExpect(status().isCreated())
                 .andReturn();
 
-
+        //ASSERT
         assertEquals(201, result.getResponse().getStatus());
-
-
     }
-
 }
