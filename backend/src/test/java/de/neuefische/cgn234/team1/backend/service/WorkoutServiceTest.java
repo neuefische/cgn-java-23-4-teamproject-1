@@ -1,12 +1,14 @@
 package de.neuefische.cgn234.team1.backend.service;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
+import de.neuefische.cgn234.team1.backend.model.dto.RequestWorkout;
 import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +19,8 @@ class WorkoutServiceTest {
 
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
     private final WorkoutService workoutService = new WorkoutService(workoutRepository);
+
+    private final UUID idService = mock(UUID.class);
 
 
     @Test
@@ -63,4 +67,41 @@ class WorkoutServiceTest {
         verify(workoutRepository).findById("1");
         verifyNoMoreInteractions(workoutRepository);
     }
+
+
+    @Test
+    void createWorkoutTest() {
+        //ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+
+        //ACT
+        when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(null));
+
+
+        Workout expect = workoutService.createWorkout(new RequestWorkout("test1", "test1"));
+
+
+        //ASSERT
+
+        verify(workoutRepository, times(1)).save(expect);
+
+
+    }
+
+    @Test
+    void createWorkout_whenWorkoutAlreadyExist_ThenException() {
+        //ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+
+        //ACT
+        when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(workout));
+
+
+        //ASSERT
+        assertThrows(IllegalArgumentException.class, () ->
+                workoutService.createWorkout(new RequestWorkout("test1", "test1")));
+
+
+        }
+
 }
