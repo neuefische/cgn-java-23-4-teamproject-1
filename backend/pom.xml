@@ -17,6 +17,7 @@
         <java.version>21</java.version>
         <sonar.organization>neuefische</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.projectName>team1-backend</sonar.projectName>
     </properties>
     <dependencies>
         <dependency>
@@ -82,7 +83,6 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
 
 </project>
