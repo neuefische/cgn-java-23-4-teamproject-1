@@ -1,11 +1,11 @@
 package de.neuefische.cgn234.team1.backend.controller;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
+import de.neuefische.cgn234.team1.backend.model.dto.RequestWorkout;
 import de.neuefische.cgn234.team1.backend.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +19,12 @@ public class WorkoutController {
     @GetMapping
     public List<Workout> getAll() {
         return workoutService.getAll();
+    }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createWorkout(@RequestBody RequestWorkout requestWorkout) {
+        workoutService.createWorkout(requestWorkout);
     }
 
 
