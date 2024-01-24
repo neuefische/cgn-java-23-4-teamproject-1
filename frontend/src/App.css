@@ -1,5 +1,16 @@
 .WorkoutBox{
-    background-color: lightblue;
+    background: rgba(255, 255, 255, 0.48);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(14.5px);
+    -webkit-backdrop-filter: blur(14.5px);
+    border: 1px solid rgba(179, 179, 179, 0.09);
+    text-align: center;
+    font-family: Avenir, serif;
     font-size: x-large;
-    font-family: Avenir;
+    font-weight: bold;
+}
+body{
+    background-color: black;
+    background-image: linear-gradient(45grad,black, rgba(255, 255, 255, 0.12),black);
 }
