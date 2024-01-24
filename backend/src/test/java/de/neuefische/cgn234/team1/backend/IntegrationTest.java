@@ -127,7 +127,7 @@ class IntegrationTest {
                 .andReturn();
 
 
-        assertEquals(result.getResponse().getStatus(), 201);
+        assertEquals(201, result.getResponse().getStatus());
 
 
     }
