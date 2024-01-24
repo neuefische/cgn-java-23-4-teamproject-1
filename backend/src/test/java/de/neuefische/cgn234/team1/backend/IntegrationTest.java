@@ -2,7 +2,6 @@ package de.neuefische.cgn234.team1.backend;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
 import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@RequiredArgsConstructor
 class IntegrationTest {
 
     @Autowired
