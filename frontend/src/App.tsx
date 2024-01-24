@@ -1,8 +1,7 @@
-
 import './App.css'
 import {useEffect, useState} from "react";
 import {Workout} from "./model/Workout.tsx";
-import  axios from "axios";
+import axios from "axios";
 import {Route, Routes} from "react-router-dom";
 import WorkoutGallery from "./components/WorkoutGallery.tsx";
 
@@ -11,7 +10,7 @@ function App() {
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
     function getAllWorkouts(){
         axios.get("/api/workouts").then(response =>
-        setWorkoutList([...workoutList, response.data]))
+            setWorkoutList(response.data))
     }
 
     useEffect(() => {
@@ -20,7 +19,6 @@ function App() {
 
     return(
         <>
-
             <Routes>
                 <Route path={"/"} element={<WorkoutGallery workoutList={workoutList}/>}/>
             </Routes>
