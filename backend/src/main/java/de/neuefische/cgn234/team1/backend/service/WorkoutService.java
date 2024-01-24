@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +28,15 @@ public class WorkoutService {
             return workoutToBeCreated;
         } else throw new IllegalArgumentException("Workout already exists");
     }
+    public Workout getById(String id) {
+        return workoutRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    }
 
+    public boolean deleteWorkout(String id) {
+        if (workoutRepository.existsById(id)) {
+            workoutRepository.deleteById(id);
+            return true;
+        }
+        return false; // Workout not found
+    }
 }

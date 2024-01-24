@@ -27,5 +27,13 @@ public class WorkoutController {
         return workoutService.createWorkout(requestWorkout);
     }
 
+    @GetMapping("{id}")
+    public Workout getWorkoutById(@PathVariable String id) {
+        return workoutService.getById(id);
+    }
 
+    @DeleteMapping("/{id}")
+    public boolean deleteWorkout(@PathVariable String id) {
+        return workoutService.deleteWorkout(id);
+    }
 }

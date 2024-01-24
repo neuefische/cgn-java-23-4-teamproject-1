@@ -9,10 +9,9 @@ export default function WorkoutGallery(props:WorkoutGalleryProps){
 
    const workoutList: Workout[] = props.workoutList;
 
-   return(<>
-       {workoutList.map(workout => {
-           <WorkoutBox workout={workout}/>
-           })}
+    return (<>
+        {workoutList.map(workout =>
+            <WorkoutBox key={workout.id} workout={workout}/>
+        )}
    </>)
-
 }

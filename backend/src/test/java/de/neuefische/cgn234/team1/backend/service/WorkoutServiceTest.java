@@ -6,6 +6,8 @@ import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +18,7 @@ class WorkoutServiceTest {
 
 
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
-    private WorkoutService workoutService = new WorkoutService(workoutRepository);
+    private final WorkoutService workoutService = new WorkoutService(workoutRepository);
 
 
     @Test
@@ -34,6 +36,34 @@ class WorkoutServiceTest {
         verify(workoutRepository).findAll();
 
 
+    }
+
+    @Test
+    void getWorkoutById_whenWorkoutExists_ReturnWorkout() {
+        // ARRANGE
+        Workout expected = new Workout("1", "Beinpresse", "Bewege an der Beinpresse ein paar gewichte");
+        when(workoutRepository.findById("1")).thenReturn(Optional.of(expected));
+
+        // ACT
+        Workout actual = workoutService.getById("1");
+
+        // ASSERT
+        assertEquals(expected, actual);
+        verify(workoutRepository).findById("1");
+        verifyNoMoreInteractions(workoutRepository);
+    }
+
+    @Test
+    void getWorkoutById_whenWorkoutNotExists_throwException() {
+        // ARRANGE
+
+        // ACT & ASSERT
+        assertThrows(NoSuchElementException.class, () ->
+                workoutService.getById("1"));
+
+        // ASSERT
+        verify(workoutRepository).findById("1");
+        verifyNoMoreInteractions(workoutRepository);
     }
 
 
