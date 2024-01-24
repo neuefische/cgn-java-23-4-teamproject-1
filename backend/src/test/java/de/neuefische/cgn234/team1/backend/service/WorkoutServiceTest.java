@@ -67,9 +67,8 @@ class WorkoutServiceTest {
 
 
         //ASSERT
-
-        verify(workoutRepository, times(1)).save(workout);
-        assertThrows(IllegalArgumentException.class, -> );
+        assertThrows(IllegalArgumentException.class, () ->
+                workoutService.createWorkout(new RequestWorkout("test1", "test1")));
 
 
         }
