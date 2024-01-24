@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class WorkoutServiceTest {
@@ -68,8 +69,7 @@ class WorkoutServiceTest {
         //ASSERT
 
         verify(workoutRepository, times(1)).save(workout);
-        assertThrows(IllegalArgumentException.class {
-            () -> );
+        assertThrows(IllegalArgumentException.class, -> );
 
 
         }
