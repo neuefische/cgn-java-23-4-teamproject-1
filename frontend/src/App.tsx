@@ -11,7 +11,7 @@ function App() {
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
     function getAllWorkouts(){
         axios.get("/api/workouts").then(response =>
-        setWorkoutList([...workoutList, response.data]))
+            setWorkoutList(response.data))
     }
 
     useEffect(() => {
@@ -20,7 +20,6 @@ function App() {
 
     return(
         <>
-
             <Routes>
                 <Route path={"/"} element={<WorkoutGallery workoutList={workoutList}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
