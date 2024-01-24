@@ -37,19 +37,41 @@ class WorkoutServiceTest {
 
 
     @Test
-    void createWorkoutTest() {
+    void createWorkoutTest_whenWorkoutDoesNotExist() {
         //ARRANGE
         Workout workout = new Workout("1", "test1", "test1");
 
         //ACT
         when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(null));
         doNothing().when(workoutRepository).save(workout);
+        Workout expect = workoutService.createWorkout(new RequestWorkout("test1", "test1"));
+
+
+        //ASSERT
+
+        verify(workoutRepository, times(1)).save(workout);
+        assertEquals(expect, workout);
+
+    }
+
+    @Test
+    void createWorkout_whenWorkoutAlreadyExist_ThenException() {
+        //ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+
+        //ACT
+        when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(workout));
+        doNothing().when(workoutRepository).save(workout);
         workoutService.createWorkout(new RequestWorkout("test1", "test1"));
 
 
         //ASSERT
+
         verify(workoutRepository, times(1)).save(workout);
+        assertThrows(IllegalArgumentException.class {
+            () -> );
 
 
-    }
+        }
+
 }
