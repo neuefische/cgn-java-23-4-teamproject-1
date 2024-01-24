@@ -19,11 +19,12 @@ public class WorkoutService {
        return workoutRepository.findAll();
    }
 
-    public void createWorkout(RequestWorkout requestWorkout) {
+    public Workout createWorkout(RequestWorkout requestWorkout) {
         Optional<Workout> isWorkout = workoutRepository.findByWorkoutName(requestWorkout.workoutName());
         if (isWorkout.isEmpty()) {
             Workout workoutToBeCreated = new Workout(requestWorkout.workoutName(), requestWorkout.workoutDescription());
             workoutRepository.save(workoutToBeCreated);
+            return workoutToBeCreated;
         } else throw new IllegalArgumentException("Workout already exists");
     }
 

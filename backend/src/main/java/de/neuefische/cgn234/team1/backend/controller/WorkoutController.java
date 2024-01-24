@@ -23,8 +23,8 @@ public class WorkoutController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createWorkout(@RequestBody RequestWorkout requestWorkout) {
-        workoutService.createWorkout(requestWorkout);
+    public Workout createWorkout(@RequestBody RequestWorkout requestWorkout) {
+        return workoutService.createWorkout(requestWorkout);
     }
 
 

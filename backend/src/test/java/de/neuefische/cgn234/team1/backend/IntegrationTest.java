@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,6 +53,38 @@ class IntegrationTest {
 
 
         assertEquals(200, result.getResponse().getStatus());
+
+    }
+
+    @Test
+    @DirtiesContext
+    void createWorkoutTest() throws Exception {
+
+        //GIVEN
+
+
+        //ACT
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {
+                                        "id": "1",
+                                "workoutName": "test1",
+                                "workoutDescription": "test1"
+                                                       }
+                                                       """))
+                //ASSERT
+                .andExpect(status().isCreated())
+                .andReturn();
+        Optional<Workout> isWorkout = workoutRepository.findByWorkoutName("test1");
+        Workout expected = isWorkout.get();
+        String expect = ("""
+                {"id":"${expected.id()}","workoutName":"test1","workoutDescription":"test1"}
+                               """);
+
+        assertEquals(result.getResponse().getStatus(), 201);
+        assertEquals(result.getResponse().getContentAsString(), expect);
+
 
     }
 
