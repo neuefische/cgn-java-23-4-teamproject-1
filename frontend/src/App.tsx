@@ -9,9 +9,10 @@ import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 function App() {
 
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
-    function getAllWorkouts(){
+
+    function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
-        setWorkoutList([...workoutList, response.data]))
+            setWorkoutList(response.data))
     }
 
     function addWorkout(workout: WorkoutRequest) {
@@ -24,9 +25,9 @@ function App() {
 
     useEffect(() => {
         getAllWorkouts()
-    },[])
+    }, [])
 
-    return(
+    return (
         <>
 
             <Routes>
@@ -35,7 +36,6 @@ function App() {
             </Routes>
         </>
     )
-
 
 
 }

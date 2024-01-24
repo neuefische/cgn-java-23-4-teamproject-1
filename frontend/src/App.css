@@ -22,8 +22,6 @@ body{
     backdrop-filter: blur(14.5px);
     -webkit-backdrop-filter: blur(14.5px);
     border: 1px solid rgba(179, 179, 179, 0.09);
-
-
 }
 
 .AddWorkout form {
