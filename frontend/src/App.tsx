@@ -5,6 +5,7 @@ import axios from "axios";
 import {Route, Routes} from "react-router-dom";
 import WorkoutGallery from "./components/WorkoutGallery.tsx";
 import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
+import WorkoutDetail from "./components/WorkoutDetail.tsx";
 
 function App() {
 
@@ -13,7 +14,6 @@ function App() {
     function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
             setWorkoutList(response.data))
-
     }
 
     function addWorkout(workout: WorkoutRequest) {
@@ -33,11 +33,10 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<WorkoutGallery workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
+                <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
             </Routes>
         </>
     )
-
-
 }
 
 export default App
