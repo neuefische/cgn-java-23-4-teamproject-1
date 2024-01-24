@@ -1,10 +1,10 @@
-
 import './App.css'
 import {useEffect, useState} from "react";
 import {Workout} from "./model/Workout.tsx";
-import  axios from "axios";
+import axios from "axios";
 import {Route, Routes} from "react-router-dom";
 import WorkoutGallery from "./components/WorkoutGallery.tsx";
+import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 
 function App() {
 
@@ -12,6 +12,14 @@ function App() {
     function getAllWorkouts(){
         axios.get("/api/workouts").then(response =>
         setWorkoutList([...workoutList, response.data]))
+    }
+
+    function addWorkout(workout: WorkoutRequest) {
+        axios.post("/api/workouts/add", {
+            workoutName: workout.workoutName,
+            workoutDescription: workout.workoutDescription
+        }).then(response =>
+            setWorkoutList([...workoutList, response.data]))
     }
 
     useEffect(() => {
@@ -23,6 +31,7 @@ function App() {
 
             <Routes>
                 <Route path={"/"} element={<WorkoutGallery workoutList={workoutList}/>}/>
+                <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
             </Routes>
         </>
     )
