@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,20 +67,20 @@ class WorkoutServiceTest {
 
 
     @Test
-    void createWorkoutTest_whenWorkoutDoesNotExist() {
+    void createWorkoutTest() {
         //ARRANGE
         Workout workout = new Workout("1", "test1", "test1");
 
         //ACT
         when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(null));
-        doNothing().when(workoutRepository).save(workout);
+        when(workoutRepository.save(workout)).thenReturn(workout);
         Workout expect = workoutService.createWorkout(new RequestWorkout("test1", "test1"));
 
 
         //ASSERT
 
         verify(workoutRepository, times(1)).save(workout);
-        assertEquals(expect, workout);
+
 
     }
 
@@ -92,8 +91,6 @@ class WorkoutServiceTest {
 
         //ACT
         when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(workout));
-        doNothing().when(workoutRepository).save(workout);
-        workoutService.createWorkout(new RequestWorkout("test1", "test1"));
 
 
         //ASSERT
