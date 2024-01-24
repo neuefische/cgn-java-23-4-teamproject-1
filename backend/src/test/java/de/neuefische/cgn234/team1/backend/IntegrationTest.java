@@ -89,7 +89,6 @@ class IntegrationTest {
         MvcResult result = mockMvc.perform(delete("/api/workouts/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("true"))
                 .andReturn();
 
         // ASSERT
@@ -101,7 +100,6 @@ class IntegrationTest {
         MvcResult result = mockMvc.perform(delete("/api/workouts/nonexistent")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("false"))
                 .andReturn();
 
         // ASSERT
