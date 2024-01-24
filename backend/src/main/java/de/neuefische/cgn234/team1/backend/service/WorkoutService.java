@@ -11,12 +11,11 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 public class WorkoutService {
+    private final WorkoutRepository workoutRepository;
 
-   private final WorkoutRepository workoutRepository;
-
-   public List<Workout> getAll(){
-       return workoutRepository.findAll();
-   }
+    public List<Workout> getAll() {
+        return workoutRepository.findAll();
+    }
 
     public Workout getById(String id) {
         return workoutRepository.findById(id).orElseThrow(NoSuchElementException::new);
@@ -28,5 +27,9 @@ public class WorkoutService {
             return true;
         }
         return false; // Workout not found
+    }
+
+    public Workout editWorkout(Workout newWorkout) {
+        return workoutRepository.save(newWorkout);
     }
 }

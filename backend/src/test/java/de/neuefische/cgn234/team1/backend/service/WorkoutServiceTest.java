@@ -13,27 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class WorkoutServiceTest {
-
-
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
-    private final WorkoutService workoutService = new WorkoutService(workoutRepository);
-
+    private WorkoutService workoutService = new WorkoutService(workoutRepository);
 
     @Test
     void getAll() {
         //ARRANGE
-        List<Workout> expected = List.of( new Workout("Beinpresse","Bewege an der Beinpresse ein paar gewichte"), new Workout("test1" ,"test1"));
+        List<Workout> expected = List.of(new Workout("Beinpresse", "Bewege an der Beinpresse ein paar gewichte"), new Workout("test1", "test1"));
         when(workoutRepository.findAll()).thenReturn(expected);
 
         //ACT
         List<Workout> actual = workoutService.getAll();
 
         //ASSERT
-
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
         verify(workoutRepository).findAll();
-
-
     }
 
     @Test
@@ -53,8 +47,6 @@ class WorkoutServiceTest {
 
     @Test
     void getWorkoutById_whenWorkoutNotExists_throwException() {
-        // ARRANGE
-
         // ACT & ASSERT
         assertThrows(NoSuchElementException.class, () ->
                 workoutService.getById("1"));
@@ -62,5 +54,22 @@ class WorkoutServiceTest {
         // ASSERT
         verify(workoutRepository).findById("1");
         verifyNoMoreInteractions(workoutRepository);
+    }
+
+    @Test
+    void updateWorkout_whenWorkoutUpdatesReturnsUpdatedWorkout() {
+        // ARRANGE
+        workoutService = mock(WorkoutService.class);
+        String workoutId = "1";
+        Workout workoutToUpdate = new Workout(workoutId, "test", "test");
+
+        when(workoutService.editWorkout(workoutToUpdate)).thenReturn(workoutToUpdate);
+
+        // ACT
+        Workout updatedWorkout = workoutService.editWorkout(workoutToUpdate);
+
+        // ASSERT
+        assertEquals(workoutToUpdate, updatedWorkout);
+        verify(workoutService).editWorkout(workoutToUpdate);
     }
 }
