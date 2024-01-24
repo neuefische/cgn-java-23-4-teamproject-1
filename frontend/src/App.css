@@ -33,3 +33,8 @@ body{
     font-weight: bold;
     color: white;
 }
+
+.AddWorkout form .Description {
+    height: fit-content;
+    width: auto;
+}

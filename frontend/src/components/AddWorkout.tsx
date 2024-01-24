@@ -45,7 +45,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
                 <input type={"text"} onChange={onNameChange} value={workoutName}
                        placeholder={"Workout Name here:"}>WORKOUTNAME</input>
                 <input type={"text"} onChange={onDescriptionChange} value={workoutDescription}
-                       placeholder={"Workout Description here:"}>WORKOUT DESCRIPTION</input>
+                       placeholder={"Workout Description here:"} className="Description">WORKOUT DESCRIPTION</input>
                 <button type={"submit"}>SUBMIT</button>
             </form>
         </div>
