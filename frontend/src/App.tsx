@@ -18,12 +18,26 @@ function App() {
     }
 
     function addWorkout(workout: WorkoutRequest) {
-        axios.post("/api/workouts/add", {
+        axios.post("/api/workouts", {
             workoutName: workout.workoutName,
             workoutDescription: workout.workoutDescription
         }).then(response =>
             setWorkoutList([...workoutList, response.data]))
     }
+
+    function deleteWorkout(workout: Workout) {
+        axios.delete<boolean>(`/api/workouts/${workout.id}`).then((response) => {
+                if (response.data === true) {
+                    const id = workout.id;
+                    setWorkoutList(workoutList.filter(workout => workout.id !== id))
+                }
+            }
+        )
+    }
+
+
+
+
 
     useEffect(() => {
         getAllWorkouts()
@@ -32,7 +46,7 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path={"/"} element={<WorkoutGallery workoutList={workoutList}/>}/>
+                <Route path={"/"} element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
                 <Route path={"/workouts/:id/edit"} element={<WorkoutEdit />}/>
