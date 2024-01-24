@@ -13,6 +13,7 @@ function App() {
     function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
             setWorkoutList(response.data))
+
     }
 
     function addWorkout(workout: WorkoutRequest) {
@@ -29,7 +30,6 @@ function App() {
 
     return (
         <>
-
             <Routes>
                 <Route path={"/"} element={<WorkoutGallery workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
