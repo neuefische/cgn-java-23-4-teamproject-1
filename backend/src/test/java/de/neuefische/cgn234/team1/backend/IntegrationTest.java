@@ -114,7 +114,7 @@ class IntegrationTest {
 
 
         //ACT
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts/add")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                         {"id": "1",
