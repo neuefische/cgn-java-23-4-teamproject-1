@@ -1,6 +1,7 @@
 package de.neuefische.cgn234.team1.backend.service;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
+import de.neuefische.cgn234.team1.backend.model.dto.RequestWorkout;
 import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
 import org.junit.jupiter.api.Test;
 

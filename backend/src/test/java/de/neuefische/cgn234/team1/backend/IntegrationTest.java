@@ -160,10 +160,10 @@ class IntegrationTest {
                                 "workoutDescription": "test1"
                                                        }
                                                        """))
-                //ASSERT
                 .andExpect(status().isCreated())
                 .andReturn();
 
+        //ASSERT
         assertEquals(201, result.getResponse().getStatus());
     }
 }
