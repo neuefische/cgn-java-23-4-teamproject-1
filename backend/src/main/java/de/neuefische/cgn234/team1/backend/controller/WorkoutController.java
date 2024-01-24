@@ -28,13 +28,11 @@ public class WorkoutController {
     }
 
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.FOUND)
     public Workout getWorkoutById(@PathVariable String id) {
         return workoutService.getById(id);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteWorkout(@PathVariable String id) {
         return workoutService.deleteWorkout(id);
     }
