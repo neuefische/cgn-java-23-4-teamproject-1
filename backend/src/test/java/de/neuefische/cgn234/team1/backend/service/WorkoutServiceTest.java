@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +19,8 @@ class WorkoutServiceTest {
 
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
     private final WorkoutService workoutService = new WorkoutService(workoutRepository);
+
+    private final UUID idService = mock(UUID.class);
 
 
     @Test
@@ -73,13 +76,14 @@ class WorkoutServiceTest {
 
         //ACT
         when(workoutRepository.findByWorkoutName("test1")).thenReturn(Optional.ofNullable(null));
-        when(workoutRepository.save(workout)).thenReturn(workout);
+
+
         Workout expect = workoutService.createWorkout(new RequestWorkout("test1", "test1"));
 
 
         //ASSERT
 
-        verify(workoutRepository, times(1)).save(workout);
+        verify(workoutRepository, times(1)).save(expect);
 
 
     }
