@@ -40,11 +40,14 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     return (
 
-        <form key={undefined} onSubmit={update} className="AddWorkout">
+        <form onSubmit={update} className="AddWorkout">
+            <label>WORKOUT</label>
                 <input type={"text"} onChange={onNameChange} value={workoutName}
                        placeholder={"Workout Name here:"}/>
-                <input type={"text"} onChange={onDescriptionChange} value={workoutDescription}
-                       placeholder={"Workout Description here:"} className="Description"/>
+            <label>DESCRIPTION</label>
+            <textarea type={"text"} onChange={onDescriptionChange} value={workoutDescription}
+                      cols={50} rows={10}
+                      placeholder={"Workout Description here:"} className="Description"/>
                 <button type={"submit"}>SUBMIT</button>
             </form>
 
