@@ -54,4 +54,27 @@ class IntegrationTest {
 
     }
 
+    @Test
+    @DirtiesContext
+    void getWorkoutById() throws Exception {
+        // ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+        workoutRepository.save(workout);
+
+        // ACT
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/workouts/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("""
+                                       {
+                                       "id": "1",
+                                       "workoutName": "test1",
+                                       "workoutDescription": "test1"
+                                       }
+                        """)).andReturn();
+
+        //ASSERT
+        assertEquals(200, result.getResponse().getStatus());
+    }
+
 }
