@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -76,5 +78,33 @@ class IntegrationTest {
         //ASSERT
         assertEquals(200, result.getResponse().getStatus());
     }
+
+    @Test
+    void deleteWorkout_existingWorkout_shouldDeleteAndReturnTrue() throws Exception {
+        // ARRANGE
+        Workout workout = new Workout("1", "test1", "test1");
+        workoutRepository.save(workout);
+
+        // ACT
+        MvcResult result = mockMvc.perform(delete("/api/workouts/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // ASSERT
+        assertEquals(200, result.getResponse().getStatus());
+    }
+    @Test
+    void deleteWorkout_nonExistingWorkout_shouldReturnFalse() throws Exception {
+        // ACT
+        MvcResult result = mockMvc.perform(delete("/api/workouts/nonexistent")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // ASSERT
+        assertEquals(200, result.getResponse().getStatus());
+    }
+
 
 }
