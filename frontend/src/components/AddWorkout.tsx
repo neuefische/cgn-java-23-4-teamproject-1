@@ -20,7 +20,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     }
 
-    function onDescriptionChange(event: ChangeEvent<HTMLInputElement>) {
+    function onDescriptionChange(event: ChangeEvent<HTMLTextAreaElement>) {
         setWorkoutDescription(event.target.value)
     }
 
@@ -45,7 +45,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
                 <input type={"text"} onChange={onNameChange} value={workoutName}
                        placeholder={"Workout Name here:"}/>
             <label>DESCRIPTION</label>
-            <textarea type={"text"} onChange={onDescriptionChange} value={workoutDescription}
+            <textarea onChange={onDescriptionChange} value={workoutDescription}
                       cols={50} rows={10}
                       placeholder={"Workout Description here:"} className="Description"/>
                 <button type={"submit"}>SUBMIT</button>
