@@ -1,4 +1,5 @@
 import {ChangeEvent, useState} from "react";
+import axios from "axios";
 
 
 type AddWorkoutProps = {
@@ -22,6 +23,19 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     function onDescriptionChange(event: ChangeEvent<HTMLTextAreaElement>) {
         setWorkoutDescription(event.target.value)
+    }
+
+    function Generate() {
+        setWorkoutName("Workout Name")
+        setWorkoutDescription("")
+        axios.post("/api/workouts/generate", {
+            title: workoutName,
+        }).then(response => {
+                setWorkoutName(response.data.workoutName);
+                setWorkoutDescription(response.data.workoutDescription);
+            }
+        )
+
     }
 
     function update(event: React.FormEvent<HTMLFormElement>) {
@@ -49,6 +63,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
                       cols={50} rows={10}
                       placeholder={"Workout Description here:"} className="Description"/>
                 <button type={"submit"}>SUBMIT</button>
+            <button type={"button"} onClick={Generate}>GENERATE</button>
             </form>
 
 
