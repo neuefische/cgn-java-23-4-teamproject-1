@@ -2,6 +2,7 @@ package de.neuefische.cgn234.team1.backend;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
 import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
+import de.neuefische.cgn234.team1.backend.service.ChatGptGenerateService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,6 +27,9 @@ class IntegrationTest {
 
     @Autowired
     private WorkoutRepository workoutRepository;
+
+    @Autowired
+    private ChatGptGenerateService chatGptGenerateService = mock(ChatGptGenerateService.class);
 
     @Test
     @DirtiesContext
