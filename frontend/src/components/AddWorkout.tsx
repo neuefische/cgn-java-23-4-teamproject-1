@@ -49,7 +49,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     }
 
-    function update(event: React.FormEvent<HTMLFormElement>) {
+    function update(event: React.MouseEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const newWorkout: WorkoutRequest = {
@@ -60,6 +60,8 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
         }
         addWorkout.addWorkout(newWorkout)
+        setWorkoutName("")
+        setWorkoutDescription("")
     }
 
 
@@ -71,7 +73,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
             }} className="ModalGPT">
                 <Modal.Body><LoadingSpinnerComponent/></Modal.Body>
             </Modal>
-            <form onSubmit={update} className="AddWorkout">
+            <form onClick={update} className="AddWorkout">
 
                 <label>WORKOUT</label>
                 <textarea onChange={onNameChange} value={workoutName}

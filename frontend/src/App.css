@@ -3,6 +3,17 @@ html {
 
 }
 
+.HomeLayout {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    width: 100%;
+
+}
 
 .WorkoutBox{
     background: rgba(255, 255, 255, 0.48);
@@ -13,8 +24,16 @@ html {
     border: 1px solid rgba(179, 179, 179, 0.09);
     text-align: center;
     font-family: Avenir, serif;
-    font-size: x-large;
     font-weight: bold;
+    margin: 3rem;
+    padding: 3rem;
+    height: fit-content;
+    width: 25rem;
+    justify-content: flex-start;
+}
+
+.WorkoutBox p {
+
 }
 
 body {

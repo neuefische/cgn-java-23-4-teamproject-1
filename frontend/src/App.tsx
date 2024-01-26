@@ -39,9 +39,6 @@ function App() {
     }
 
 
-
-
-
     useEffect(() => {
         getAllWorkouts()
     }, [])
@@ -50,12 +47,14 @@ function App() {
         <>
 
 
-        <Routes>
-                <Route path={"/"} element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
+            <Routes>
+                <Route path={"/"}
+                       element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
-                <Route path={"/workouts/:id/edit"} element={<WorkoutEdit />}/>
+                <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
             </Routes>
+
 
         </>
     )
