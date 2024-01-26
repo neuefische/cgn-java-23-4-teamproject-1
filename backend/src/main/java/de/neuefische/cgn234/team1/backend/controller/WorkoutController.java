@@ -2,6 +2,8 @@ package de.neuefische.cgn234.team1.backend.controller;
 
 import de.neuefische.cgn234.team1.backend.model.Workout;
 import de.neuefische.cgn234.team1.backend.model.dto.RequestWorkout;
+import de.neuefische.cgn234.team1.backend.model.dto.WorkoutGenerate;
+import de.neuefische.cgn234.team1.backend.service.ChatGptGenerateService;
 import de.neuefische.cgn234.team1.backend.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkoutController {
     private final WorkoutService workoutService;
+    private final ChatGptGenerateService gptGenerateService;
 
     @GetMapping
     public List<Workout> getAll() {
@@ -44,5 +47,14 @@ public class WorkoutController {
         }
 
         return workoutService.editWorkout(workout);
+    }
+
+    @PostMapping("/generate")
+    public Workout generateWorkout(@RequestBody WorkoutGenerate workoutGenerate) {
+        String[] arr = gptGenerateService.generateExercise(workoutGenerate.title());
+        return workoutService.createWorkout(new RequestWorkout(
+                arr[0],
+                arr[1]
+        ));
     }
 }
