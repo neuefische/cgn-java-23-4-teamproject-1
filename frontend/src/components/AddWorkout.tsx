@@ -65,7 +65,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     return (
 
-        <div>
+        <div className="divAddworkout">
 
             <Modal show={show} onHide={() => {
             }} className="ModalGPT">
@@ -76,13 +76,14 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
                 <label>WORKOUT</label>
                 <textarea onChange={onNameChange} value={workoutName}
                           wrap={"hard"} cols={48} rows={workoutName.length / 48}
-                       placeholder={"Workout Name here:"}/>
+                          placeholder={"Workout Name here:"}/>
                 <label>DESCRIPTION</label>
                 <textarea onChange={onDescriptionChange} value={workoutDescription}
                           cols={50} rows={10}
                           placeholder={"Workout Description here:"} className="Description"/>
-                <button type={"submit"}>SUBMIT</button>
-                <button type={"button"} onClick={generate}>GENERATE</button>
+                <button className="generateButton" type={"button"} onClick={generate}>GENERATE</button>
+                <button className="submitButton" type={"submit"}>SUBMIT</button>
+
             </form>
 
 

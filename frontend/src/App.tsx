@@ -1,4 +1,3 @@
-import './App.css'
 import {useEffect, useState} from "react";
 import {Workout} from "./model/Workout.tsx";
 import axios from "axios";
@@ -8,6 +7,7 @@ import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 import WorkoutDetail from "./components/WorkoutDetail.tsx";
 import WorkoutEdit from "./components/WorkoutEdit.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import './App.css'
 
 
 function App() {
@@ -49,12 +49,14 @@ function App() {
     return (
         <>
 
-            <Routes>
+
+        <Routes>
                 <Route path={"/"} element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
                 <Route path={"/workouts/:id/edit"} element={<WorkoutEdit />}/>
             </Routes>
+
         </>
     )
 }
