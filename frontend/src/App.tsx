@@ -7,8 +7,11 @@ import WorkoutGallery from "./components/WorkoutGallery.tsx";
 import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 import WorkoutDetail from "./components/WorkoutDetail.tsx";
 import WorkoutEdit from "./components/WorkoutEdit.tsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
+
 
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
 
@@ -45,6 +48,7 @@ function App() {
 
     return (
         <>
+
             <Routes>
                 <Route path={"/"} element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>

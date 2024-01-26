@@ -1,5 +1,7 @@
-import {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import axios from "axios";
+import Modal from "react-bootstrap/Modal";
+import {LoadingSpinnerComponent} from "../assets/Spinner.tsx";
 
 
 type AddWorkoutProps = {
@@ -10,13 +12,16 @@ export type WorkoutRequest = {
     workoutDescription: string
 }
 
+
 export default function AddWorkout(addWorkout: AddWorkoutProps) {
+    const [show, setShow] = useState(false);
+
+
 
     const [workoutName, setWorkoutName] = useState<string>("");
     const [workoutDescription, setWorkoutDescription] = useState<string>("");
 
-
-    function onNameChange(event: ChangeEvent<HTMLInputElement>) {
+    function onNameChange(event: ChangeEvent<HTMLTextAreaElement>) {
         setWorkoutName(event.target.value)
 
     }
@@ -25,16 +30,22 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
         setWorkoutDescription(event.target.value)
     }
 
-    function Generate() {
+    function generate() {
+        setShow(true)
+
         setWorkoutName("Workout Name")
         setWorkoutDescription("")
+
         axios.post("/api/workouts/generate", {
             title: workoutName,
         }).then(response => {
+            setShow(false)
                 setWorkoutName(response.data.workoutName);
                 setWorkoutDescription(response.data.workoutDescription);
+
             }
         )
+
 
     }
 
@@ -54,18 +65,33 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     return (
 
-        <form onSubmit={update} className="AddWorkout">
-            <label>WORKOUT</label>
-                <input type={"text"} onChange={onNameChange} value={workoutName}
+        <div>
+
+            <Modal show={show} onHide={() => {
+            }} className="ModalGPT">
+                <Modal.Body><LoadingSpinnerComponent/></Modal.Body>
+            </Modal>
+            <form onSubmit={update} className="AddWorkout">
+
+                <label>WORKOUT</label>
+                <textarea onChange={onNameChange} value={workoutName}
+                          wrap={"hard"} cols={48} rows={workoutName.length / 48}
                        placeholder={"Workout Name here:"}/>
-            <label>DESCRIPTION</label>
-            <textarea onChange={onDescriptionChange} value={workoutDescription}
-                      cols={50} rows={10}
-                      placeholder={"Workout Description here:"} className="Description"/>
+                <label>DESCRIPTION</label>
+                <textarea onChange={onDescriptionChange} value={workoutDescription}
+                          cols={50} rows={10}
+                          placeholder={"Workout Description here:"} className="Description"/>
                 <button type={"submit"}>SUBMIT</button>
-            <button type={"button"} onClick={Generate}>GENERATE</button>
+                <button type={"button"} onClick={generate}>GENERATE</button>
             </form>
 
 
-    )
+        </div>
+
+
+    );
 }
+
+
+
+

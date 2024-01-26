@@ -86,6 +86,7 @@ form {
     background: transparent;
     height: fit-content;
     width: auto;
+    overflow-wrap: break-word;
 }
 
 .AddWorkout textarea::placeholder {
@@ -234,4 +235,56 @@ html {
     border: 1px solid rgba(179, 179, 179, 0.09);
     padding: 1rem;
     background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sweet-loading {
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+    background-color: transparent;
+    border: transparent;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+    background-color: transparent;
+    justify-self: center;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 0.1;
+    justify-self: center;
+}
+
+.ReactModal {
+    transition: opacity 500ms ease-in-out;
+    background-color: transparent;
+    justify-self: center;
+    position: relative;
+    top: 50%;
+    left: 50%;
+}
+
+.ReactModal__Body--open {
+    overflow: hidden;
+    background-color: transparent;
+
+}
+
+div .modal-content {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.modal-dialog {
+    top: 40%;
+
 }
