@@ -2,7 +2,7 @@ import {ChangeEvent, useState} from "react";
 
 
 type AddWorkoutProps = {
-    addWorkout: (workout: WorkoutRequest) => void;
+    addWorkout: (workout: WorkoutRequest) => void
 }
 export type WorkoutRequest = {
     workoutName: string,

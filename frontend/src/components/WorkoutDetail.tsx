@@ -2,6 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Workout} from "../model/Workout.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import WorkoutPhoto from "./WorkoutPhoto.tsx";
 
 export default function WorkoutDetail() {
     const params = useParams()
@@ -9,11 +10,13 @@ export default function WorkoutDetail() {
 
     const [workoutName, setWorkoutName] = useState<string>("")
     const [workoutDescription, setWorkoutDescription] = useState<string>("")
+    const [photos, setPhotos] = useState<string[] | undefined>([])
 
     function fetchData() {
         axios.get<Workout>("/api/workouts/" + id).then(response => {
             setWorkoutName(response.data.workoutName)
             setWorkoutDescription(response.data.workoutDescription)
+            setPhotos(response.data.workoutPhotos)
         })
     }
 
@@ -27,11 +30,32 @@ export default function WorkoutDetail() {
         navigate(`/workouts/${id}/edit`);
     }
 
+    const savePhoto = async (file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await axios.post('/api/upload/image/' + id, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            setPhotos([response.data, ...(photos ? photos : [])])
+            console.log(response.data); // Handle the response as needed
+        } catch (error) {
+            console.error('Error uploading image', error);
+        }
+    }
+
     return (
         <div>
             <div>Name: <em>{workoutName}</em></div>
             <div>Description: <em>{workoutDescription}</em></div>
             <button onClick={goToEditPage} className={"editButton"}>Edit</button>
+            <WorkoutPhoto savePhoto={savePhoto}/><br/>
+            {photos?.map((photo, index) =>
+                <img src={photo} key={index} alt="A workout photo"/>
+            )}
         </div>
     )
 }
