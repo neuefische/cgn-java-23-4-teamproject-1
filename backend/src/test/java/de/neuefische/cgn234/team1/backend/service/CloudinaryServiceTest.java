@@ -21,7 +21,6 @@ class CloudinaryServiceTest {
     void uploadFileTest_whenFileIsProvided_whenReturnUrlToFile() throws IOException {
         // ARRANGE
         MultipartFile mockFile = mock(MultipartFile.class);
-        String mockId = "1";
         Map<String, Object> mockResponse = Map.of("secure_url", "http://example.com/image");
 
         when(mockFile.getOriginalFilename()).thenReturn("testfile");
