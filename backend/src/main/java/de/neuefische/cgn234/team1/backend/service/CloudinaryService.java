@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
@@ -18,15 +19,22 @@ public class CloudinaryService {
     }
 
     public String uploadFile(MultipartFile file) throws IOException {
-        File fileToUpload = File.createTempFile("file", null);
-        file.transferTo(fileToUpload);
+        File fileToUpload = convertMultiPartToFile(file);
         var cloudinaryResponse = cloudinary.uploader().upload(fileToUpload, Map.of(
                 "resource_type", "auto",
                 /* "public_id", Objects.requireNonNull(file.getName())+ id + Instant.now(), */
                 "public_id", Objects.requireNonNull(file.getOriginalFilename()),
                 "folder", "cloudinary_file_test"
         ));
+
         return cloudinaryResponse.get("secure_url").toString();
     }
 
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            fos.write(file.getBytes());
+        }
+        return convFile;
+    }
 }
