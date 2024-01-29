@@ -61,8 +61,7 @@ public class UserService {
 
     public boolean deleteUser(String userName) {
         if (userRepo.existsByUserName(userName)) {
-            userRepo.deleteByUserName(userName);
-            return true;
+            return userRepo.deleteByUserName(userName);
         } else {
             throw new IllegalArgumentException("User not found");
         }

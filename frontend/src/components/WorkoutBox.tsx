@@ -22,10 +22,12 @@ export default function WorkoutBox(props:WorkoutProps){
         <div className="WorkoutBox" key={workout.id}>
             <h3>{workout.workoutName}</h3>
             <p>{workout.workoutDescription.slice(0, 200)}[...]</p>
+            <div className="WorkoutBoxButtons">
             <Link to={"workouts/" + workout.id}>
                 <button>INFO</button>
             </Link>
             <button type={"button"} onClick={deleteWorkout}>DELETE</button>
+            </div>
         </div>
     )
 }

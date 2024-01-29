@@ -33,25 +33,25 @@ public class UserController {
         return userService.createNewUser(userName, password);
     }
 
-    @RequestMapping("/${userName}")
+    @RequestMapping("/{userName}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponse getUser(@RequestParam String userName, @RequestBody String password) {
         return userService.getUser(userName, password);
     }
 
-    @RequestMapping("/${userName}/addWorkout")
+    @RequestMapping("/{userName}/addWorkout")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public UserResponse addWorkoutToUser(@RequestParam String userName, @RequestBody UserRequest userRequest) {
         return userService.addWorkoutToUser(userRequest);
     }
 
-    @RequestMapping("/${userName}/deleteWorkout")
+    @RequestMapping("/{userName}/deleteWorkout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserResponse deleteWorkoutFromUser(@RequestParam String userName, @RequestBody UserWorkout workout) {
         return userService.deleteWorkoutFromUser(userName, workout);
     }
 
-    @RequestMapping("/delete/${userName}")
+    @RequestMapping("/delete/{userName}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteUser(@RequestParam String userName) {
         return userService.deleteUser(userName);
