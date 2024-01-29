@@ -29,7 +29,7 @@ class CloudinaryServiceTest {
 
         CloudinaryService serviceUnderTest = new CloudinaryService(mockCloudinary);
         // ACT
-        String result = serviceUnderTest.uploadFile(mockFile, "123");
+        String result = serviceUnderTest.uploadFile(mockFile);
 
         // ASSERT
         assertEquals("http://example.com/image", result);
