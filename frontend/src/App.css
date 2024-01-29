@@ -198,10 +198,7 @@ div .Addworkout {
     border-radius: 5px;
     color: #ddd;
 }
-.WorkoutEdit-form-input:focus {
-    border-color: #606060;
-    outline: none;
-}
+
 .WorkoutEdit-form-h5 {
     background-color: transparent;
     margin-bottom: 8px;
@@ -342,4 +339,14 @@ div .modal-content {
 .modal-dialog {
     top: 40%;
 
+}
+
+.NAVBAR {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    position: sticky;
+    top: 0;
 }

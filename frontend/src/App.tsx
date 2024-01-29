@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Workout} from "./model/Workout.tsx";
 import axios from "axios";
-import {Route, Routes} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import WorkoutGallery from "./components/WorkoutGallery.tsx";
 import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 import WorkoutDetail from "./components/WorkoutDetail.tsx";
@@ -45,7 +45,11 @@ function App() {
 
     return (
         <>
-
+            <div className="NAVBAR">
+                <h1>WORKOUT BUDDY</h1>
+                <Link to="/">Home</Link>
+                <Link to="/add">Add Workout</Link>
+            </div>
 
             <Routes>
                 <Route path={"/"}
