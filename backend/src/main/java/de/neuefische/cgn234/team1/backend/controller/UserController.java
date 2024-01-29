@@ -9,16 +9,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public boolean login(@RequestBody String userName, @RequestBody String password) {
-        return userService.login(userName, password);
+    public boolean login(@RequestBody UserRequest userRequest) {
+        return userService.login(userRequest.userName(), userRequest.password());
     }
 
     @GetMapping("/logout")
@@ -29,8 +29,8 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@RequestBody String userName, @RequestBody String password) {
-        return userService.createNewUser(userName, password);
+    public UserResponse register(@RequestBody UserRequest userRequest) {
+        return userService.createNewUser(userRequest.userName(), userRequest.password());
     }
 
     @GetMapping("/{userName}")
