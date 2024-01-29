@@ -21,7 +21,7 @@ export default function WorkoutBox(props:WorkoutProps){
     return(
         <div className="WorkoutBox" key={workout.id}>
             <h3>{workout.workoutName}</h3>
-            <p>{workout.workoutDescription.slice(0, 200)}</p>
+            <p>{workout.workoutDescription.slice(0, 200)}[...]</p>
             <Link to={"workouts/" + workout.id}>
                 <button>INFO</button>
             </Link>
