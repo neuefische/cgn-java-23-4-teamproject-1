@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 
@@ -22,8 +23,7 @@ public class CloudinaryService {
         File fileToUpload = convertMultiPartToFile(file);
         var cloudinaryResponse = cloudinary.uploader().upload(fileToUpload, Map.of(
                 "resource_type", "auto",
-                /* "public_id", Objects.requireNonNull(file.getName())+ id + Instant.now(), */
-                "public_id", Objects.requireNonNull(file.getOriginalFilename()),
+                "public_id", Objects.requireNonNull(fileToUpload.getName()) + Instant.now(),
                 "folder", "cloudinary_file_test"
         ));
 
@@ -31,10 +31,17 @@ public class CloudinaryService {
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        if (file.isEmpty()) {
+            throw new IOException();
+        }
+        String originalFilename = file.getOriginalFilename();
+
+        File convFile = new File(Objects.requireNonNull(originalFilename));
         try (FileOutputStream fos = new FileOutputStream(convFile)) {
             fos.write(file.getBytes());
         }
         return convFile;
     }
+
+
 }
