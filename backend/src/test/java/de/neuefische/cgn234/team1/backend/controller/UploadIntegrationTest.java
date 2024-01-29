@@ -4,7 +4,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
 import de.neuefische.cgn234.team1.backend.model.Workout;
 import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
-import de.neuefische.cgn234.team1.backend.service.WorkoutService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,11 +34,8 @@ class UploadIntegrationTest {
     @MockBean
     private Cloudinary cloudinary;
 
-    @Autowired
-    private WorkoutService workoutService;
-
     @Test
-    void uploadImage() throws Exception {
+    void uploadImage_whenFileIsProvided_thenUrlIsReturned() throws Exception {
         // ARRANGE
         Workout workout = new Workout("1", "test1", "test1");
         workoutRepository.save(workout);
@@ -53,7 +49,7 @@ class UploadIntegrationTest {
         when(cloudinary.uploader().upload(any(File.class), anyMap())).thenReturn(mockResponse);
 
         // ACT
-        mvc.perform(multipart("/api/upload/image/1").file(file).contentType(MediaType.MULTIPART_FORM_DATA))
+        mvc.perform(multipart("/api/upload/image/" + id).file(file).contentType(MediaType.MULTIPART_FORM_DATA))
                 // ASSERT
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().string(photoUrl));
