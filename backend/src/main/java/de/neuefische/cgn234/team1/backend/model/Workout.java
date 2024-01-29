@@ -13,6 +13,9 @@ public record Workout(
         String workoutDescription,
         List<String> workoutPhotos
 ) {
+    public Workout(String id, String workoutName, String workoutDescription) {
+        this(id, workoutName, workoutDescription, Collections.emptyList());
+    }
     public Workout(String workoutName, String workoutDescription) {
         this(UUID.randomUUID().toString(), workoutName, workoutDescription, Collections.emptyList());
     }
