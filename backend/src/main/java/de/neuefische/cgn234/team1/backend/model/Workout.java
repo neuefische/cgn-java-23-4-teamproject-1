@@ -9,6 +9,8 @@ public record Workout(
         String id,
         String workoutName,
         String workoutDescription
+
+
 ) {
     public Workout(String workoutName, String workoutDescription) {
         this(UUID.randomUUID().toString(), workoutName, workoutDescription);

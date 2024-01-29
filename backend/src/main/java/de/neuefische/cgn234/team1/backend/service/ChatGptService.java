@@ -26,10 +26,14 @@ public class ChatGptService {
         ChatGptResponse response = restClient.post()
                 .uri("/completions")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ChatGptRequest("Rolle: Fittnesstrainer\n" +
-                        "Aufgabe: 1Trainingseinheit (nur eine Aufgabe) für " + message + " max 300zeichen \n" +
-                        "Ausgabe:\n" +
-                        "Beschreibung:"))
+                .body(new ChatGptRequest("Role: Fitness coach\n" +
+                        "Create a training unit for " + message + " max 300letters be very specific \n" +
+                        "The answer should be formatted as follows:\n" +
+                        "Description: [what does the training look like]\n" +
+                        "Repeat : [choose the number of Repeats between 10-25] \n" +
+                        "Set: [choose number between 3-8]\n" +
+                        "Break: [choose number between 1-10 mins] \n" +
+                        "Time: [choose how long this training should last]\n"))
 
                 .retrieve()
                 .body(ChatGptResponse.class);
@@ -43,7 +47,7 @@ public class ChatGptService {
         ChatGptResponse response = restClient.post()
                 .uri("/completions")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ChatGptRequest("Erstelle Titel für " + description + ". Max 15 zeichen. Benutze keine sonderzeichen"))
+                .body(new ChatGptRequest("Create a title for " + description + ". max 15 letters"))
                 .retrieve()
                 .body(ChatGptResponse.class);
 

@@ -12,7 +12,6 @@ public class ChatGptGenerateService {
         String description = chatGptService.chatGptDescription(content);
         String title = chatGptService.chatGptTitel(description);
 
-        return new String[]{title.replaceAll("[^a-zA-Z,\\.öäü\\s]", ""),
-                description.replaceAll("[^a-zA-Z,\\.öäü\\s]", "")};
+        return new String[]{title, description};
     }
 }

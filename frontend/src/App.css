@@ -12,6 +12,9 @@ html {
     align-content: center;
     height: 100%;
     width: 100%;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    margin-top: 30rem;
 }
 
 .WorkoutBox{
@@ -26,8 +29,26 @@ html {
     margin: 3rem;
     padding: 3rem;
     height: fit-content;
-    width: 25rem;
+    width: 20rem;
     justify-content: flex-start;
+}
+
+.WorkoutBox h3 {
+    font-size: x-large;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    font-weight: 450;
+    letter-spacing: .25rem;
+    margin-bottom: 1rem;
+
+}
+
+.WorkoutBox p {
+    font-size: large;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(179, 179, 179, 0.09);
+    padding: 1rem;
+
 }
 
 body {
