@@ -46,8 +46,8 @@ function App() {
     return (
         <>
             <div className="NAVBAR">
-                <h1>WORKOUT BUDDY</h1>
-                <Link to="/">Home</Link>
+
+                <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
                 <Link to="/add">Add Workout</Link>
             </div>
 
