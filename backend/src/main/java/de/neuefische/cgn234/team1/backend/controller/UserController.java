@@ -15,43 +15,43 @@ public class UserController {
 
     UserService userService;
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public boolean login(@RequestBody String userName, @RequestBody String password) {
         return userService.login(userName, password);
     }
 
-    @RequestMapping("/logout")
+    @GetMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
     public boolean logout(@RequestBody String userName) {
         return userService.logout(userName);
     }
 
-    @RequestMapping("/register")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse register(@RequestBody String userName, @RequestBody String password) {
         return userService.createNewUser(userName, password);
     }
 
-    @RequestMapping("/{userName}")
+    @GetMapping("/{userName}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponse getUser(@RequestParam String userName, @RequestBody String password) {
         return userService.getUser(userName, password);
     }
 
-    @RequestMapping("/{userName}/addWorkout")
+    @PutMapping("/{userName}/addWorkout")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public UserResponse addWorkoutToUser(@RequestParam String userName, @RequestBody UserRequest userRequest) {
         return userService.addWorkoutToUser(userRequest);
     }
 
-    @RequestMapping("/{userName}/deleteWorkout")
+    @DeleteMapping("/{userName}/deleteWorkout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserResponse deleteWorkoutFromUser(@RequestParam String userName, @RequestBody UserWorkout workout) {
         return userService.deleteWorkoutFromUser(userName, workout);
     }
 
-    @RequestMapping("/delete/{userName}")
+    @DeleteMapping("/delete/{userName}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteUser(@RequestParam String userName) {
         return userService.deleteUser(userName);
