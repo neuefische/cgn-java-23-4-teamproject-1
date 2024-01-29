@@ -2,6 +2,7 @@ package de.neuefische.cgn234.team1.backend.service;
 
 import de.neuefische.cgn234.team1.backend.model.chatgpt.ChatGptRequest;
 import de.neuefische.cgn234.team1.backend.model.chatgpt.ChatGptResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
