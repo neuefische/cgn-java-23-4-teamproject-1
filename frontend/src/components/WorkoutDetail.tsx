@@ -48,9 +48,13 @@ export default function WorkoutDetail() {
     }
 
     return (
-        <div>
-            <div>Name: <em>{workoutName}</em></div>
-            <div>Description: <em>{workoutDescription}</em></div>
+        <div className="WorkOutDetails">
+            <div><label>Name:</label>
+                <p><em>{workoutName}</em></p>
+            </div>
+            <div><label>Description:</label>
+                <p><em>{workoutDescription}</em></p>
+            </div>
             <button onClick={goToEditPage} className={"editButton"}>Edit</button>
             <WorkoutPhoto savePhoto={savePhoto}/><br/>
             {photos?.map((photo, index) =>

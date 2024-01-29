@@ -1,14 +1,17 @@
-import './App.css'
 import {useEffect, useState} from "react";
 import {Workout} from "./model/Workout.tsx";
 import axios from "axios";
-import {Route, Routes} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import WorkoutGallery from "./components/WorkoutGallery.tsx";
 import AddWorkout, {WorkoutRequest} from "./components/AddWorkout.tsx";
 import WorkoutDetail from "./components/WorkoutDetail.tsx";
 import WorkoutEdit from "./components/WorkoutEdit.tsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+import './App.css'
+
 
 function App() {
+
 
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
 
@@ -36,21 +39,27 @@ function App() {
     }
 
 
-
-
-
     useEffect(() => {
         getAllWorkouts()
     }, [])
 
     return (
         <>
+            <div className="NAVBAR">
+                <h1>WORKOUT BUDDY</h1>
+                <Link to="/">Home</Link>
+                <Link to="/add">Add Workout</Link>
+            </div>
+
             <Routes>
-                <Route path={"/"} element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
+                <Route path={"/"}
+                       element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
-                <Route path={"/workouts/:id/edit"} element={<WorkoutEdit />}/>
+                <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
             </Routes>
+
+
         </>
     )
 }
