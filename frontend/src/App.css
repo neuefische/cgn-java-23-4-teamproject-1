@@ -6,13 +6,12 @@ html {
 .HomeLayout {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     align-content: center;
     height: 100%;
     width: 100%;
-
 }
 
 .WorkoutBox{
@@ -20,7 +19,6 @@ html {
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(14px);
-    /*-webkit-backdrop-filter: blur(14px);*/
     border: 1px solid rgba(179, 179, 179, 0.09);
     text-align: center;
     font-family: Avenir, serif;
@@ -30,10 +28,6 @@ html {
     height: fit-content;
     width: 25rem;
     justify-content: flex-start;
-}
-
-.WorkoutBox p {
-
 }
 
 body {
@@ -60,7 +54,6 @@ div .Addworkout {
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(14px);
-    /* -webkit-backdrop-filter: blur(14.5px);*/
     border: 1px solid rgba(179, 179, 179, 0.09);
     display: flex;
     flex-direction: column;
@@ -283,7 +276,6 @@ div .Addworkout {
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(14px);
-    /*-webkit-backdrop-filter: blur(14.5px);*/
     border: 1px solid rgba(179, 179, 179, 0.09);
     padding: 1rem;
     background-color: rgba(255, 255, 255, 0.05);
@@ -347,6 +339,31 @@ div .modal-content {
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    position: sticky;
+    position: fixed;
     top: 0;
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+    z-index: 10;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    width: 100%;
+    background-color: #1a1a1a;
+
+}
+
+.NAVBAR h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.NAVBAR a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #FAEBD7FF;
+    margin: 0 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
 }

@@ -49,7 +49,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
 
     }
 
-    function update(event: React.MouseEvent<HTMLFormElement>) {
+    function update(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault()
 
         const newWorkout: WorkoutRequest = {
@@ -73,7 +73,8 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
             }} className="ModalGPT">
                 <Modal.Body><LoadingSpinnerComponent/></Modal.Body>
             </Modal>
-            <form onClick={update} className="AddWorkout">
+            <form onSubmit={() => {
+            }} className="AddWorkout">
 
                 <label>WORKOUT</label>
                 <textarea onChange={onNameChange} value={workoutName}
@@ -84,7 +85,7 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
                           cols={50} rows={10}
                           placeholder={"Workout Description here:"} className="Description"/>
                 <button className="generateButton" type={"button"} onClick={generate}>GENERATE</button>
-                <button className="submitButton" type={"submit"}>SUBMIT</button>
+                <button className="submitButton" type={"submit"} onClick={update}>SUBMIT</button>
 
             </form>
 
