@@ -52,7 +52,6 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    // @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteUser(@RequestParam String userName) {
         return userService.deleteUser(userName);
     }
