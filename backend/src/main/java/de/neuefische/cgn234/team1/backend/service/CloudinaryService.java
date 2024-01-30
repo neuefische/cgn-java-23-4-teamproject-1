@@ -17,8 +17,11 @@ import java.util.UUID;
 public class CloudinaryService {
     private final Cloudinary cloudinary;
 
-    public CloudinaryService(Cloudinary cloudinary) {
+    private final WorkoutService workoutService;
+
+    public CloudinaryService(Cloudinary cloudinary, WorkoutService workoutService) {
         this.cloudinary = cloudinary;
+        this.workoutService = workoutService;
     }
 
     public static String generateRandomFileName(String originalFileName) {
@@ -31,7 +34,7 @@ public class CloudinaryService {
         return uuid + (fileExtension.isEmpty() ? "" : "." + fileExtension);
     }
 
-    public String uploadFile(@NonNull MultipartFile file) throws IOException {
+    public String uploadFile(@NonNull MultipartFile file, String workoutId) throws IOException {
         String randomFileName = generateRandomFileName(Objects.requireNonNull(file.getOriginalFilename()));
         Path pathToUpload = Files.createTempFile("file", null);
         File fileToUpload = pathToUpload.toFile();
@@ -42,7 +45,10 @@ public class CloudinaryService {
                 "folder", "cloudinary_file_test"
         ));
 
-        return cloudinaryResponse.get("secure_url").toString();
+        String imageUrl = cloudinaryResponse.get("secure_url").toString();
+        workoutService.attachPhoto(workoutId, imageUrl);
+
+        return imageUrl;
     }
 
 }

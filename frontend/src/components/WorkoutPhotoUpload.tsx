@@ -4,7 +4,7 @@ type WorkoutPhotoProps = {
     savePhoto: (file: File) => void
 }
 
-export default function WorkoutPhoto(props: WorkoutPhotoProps) {
+export default function WorkoutPhotoUpload(props: WorkoutPhotoProps) {
 
     function savePhoto(event: ChangeEvent<HTMLInputElement>) {
         if (event.target.files && event.target.files.length > 0) {

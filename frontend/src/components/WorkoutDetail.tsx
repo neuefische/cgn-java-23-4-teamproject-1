@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Workout} from "../model/Workout.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import WorkoutPhoto from "./WorkoutPhoto.tsx";
+import WorkoutPhotoUpload from "./WorkoutPhotoUpload.tsx";
 
 export default function WorkoutDetail() {
     const params = useParams()
@@ -55,7 +55,7 @@ export default function WorkoutDetail() {
                 <p><em>{workoutDescription}</em></p>
             </div>
             <button onClick={goToEditPage} className={"editButton"}>Edit</button>
-            <WorkoutPhoto savePhoto={savePhoto}/><br/>
+            <WorkoutPhotoUpload savePhoto={savePhoto}/><br/>
             {photos?.map((photo, index) =>
                 <img src={photo} key={index} alt="A workout photo"/>
             )}

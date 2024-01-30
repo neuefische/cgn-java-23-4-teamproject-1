@@ -48,7 +48,7 @@ public class WorkoutService {
         Optional<Workout> workout = workoutRepository.findById(id);
         if (workout.isPresent()) {
             Workout presentWorkout = workout.get();
-            List<String> photos = workout.get().workoutPhotos();
+            List<String> photos = presentWorkout.workoutPhotos();
             if (photos == null) {
                 photos = new ArrayList<>();
             }

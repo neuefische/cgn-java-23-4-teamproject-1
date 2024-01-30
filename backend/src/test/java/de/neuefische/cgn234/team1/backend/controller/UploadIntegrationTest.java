@@ -41,9 +41,9 @@ class UploadIntegrationTest {
         workoutRepository.save(workout);
 
         String id = "1";
-        String photoUrl = "http://example.com/image.png";
-        MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "some xml".getBytes());
-        Map<String, Object> mockResponse = Map.of("secure_url", photoUrl);
+        String imageUrl = "http://example.com/image.png";
+        Map<String, Object> mockResponse = Map.of("secure_url", imageUrl);
+        MockMultipartFile file = new MockMultipartFile("file", "image.png", MediaType.IMAGE_PNG_VALUE, "data".getBytes());
 
         when(cloudinary.uploader()).thenReturn(mock(Uploader.class));
         when(cloudinary.uploader().upload(any(File.class), anyMap())).thenReturn(mockResponse);
@@ -52,7 +52,7 @@ class UploadIntegrationTest {
         mvc.perform(multipart("/api/upload/image/" + id).file(file).contentType(MediaType.MULTIPART_FORM_DATA))
                 // ASSERT
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().string(photoUrl));
+                .andExpect(MockMvcResultMatchers.content().string(imageUrl));
 
         assertEquals(1, workoutRepository.findById("1").get().workoutPhotos().size());
     }
