@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepo userRepo;
 
     public UserResponse createNewUser(String userName, String password) {
-        if (userRepo.existsByUserName(userName)) {
+        if (userRepo.existsUserByUserName(userName)) {
             throw new IllegalArgumentException("User already exists");
         }
         userRepo.save(new User(userName, password, new ArrayList<>()));
@@ -37,31 +37,31 @@ public class UserService {
 
     public UserResponse addWorkoutToUser(UserRequest userRequest) {
         List<UserWorkout> userWorkoutList = userRepo.getWorkoutListByUserName(userRequest.userName());
-        List<UserWorkout> updatedList = userWorkoutList.stream().map(userWorkout -> {
-            for (UserWorkout workout : userRequest.userWorkoutList()) {
-                if (userWorkout.workoutName().equals(workout.workoutName())) {
-                    return workout;
-                }
-
+        List<UserWorkout> updatedList = new ArrayList<>(userWorkoutList);
+        for (UserWorkout workout : userRequest.userWorkoutList()) {
+            int index = updatedList.indexOf(workout);
+            if (index == -1) {
+                updatedList.add(workout);
+            } else {
+                updatedList.add(index, workout);
             }
-            return userWorkout;
-        }).toList();
+        }
         User user = userRepo.findByUserName(userRequest.userName()).get();
-        user.userWorkoutList().clear();
-        user.userWorkoutList().addAll(updatedList);
-        userRepo.save(user);
-        return new UserResponse(user.userName(), user.userWorkoutList());
+        User userToBeSafed = new User(user.userName(), user.password(), updatedList);
+        userRepo.save(userToBeSafed);
+        return new UserResponse(userToBeSafed.userName(), userToBeSafed.userWorkoutList());
     }
 
     public UserResponse deleteWorkoutFromUser(String userName, UserWorkout workout) {
         User user = userRepo.findByUserName(userName).get();
-        user.userWorkoutList().remove(workout);
-        userRepo.save(user);
-        return new UserResponse(user.userName(), user.userWorkoutList());
+        List<UserWorkout> updatedList = new ArrayList<>(user.userWorkoutList());
+        updatedList.remove(workout);
+        userRepo.save(new User(user.userName(), user.password(), updatedList));
+        return new UserResponse(user.userName(), updatedList);
     }
 
     public boolean deleteUser(String userName) {
-        if (userRepo.existsByUserName(userName)) {
+        if (userRepo.existsUserByUserName(userName)) {
             return userRepo.deleteByUserName(userName);
         } else {
             throw new IllegalArgumentException("User not found");

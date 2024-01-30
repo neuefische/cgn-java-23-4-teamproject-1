@@ -29,31 +29,31 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@RequestBody UserRequest userRequest) {
-        return userService.createNewUser(userRequest.userName(), userRequest.password());
+    public UserResponse register(@RequestBody String[] userInfo) {
+        return userService.createNewUser(userInfo[0], userInfo[1]);
     }
 
-    @GetMapping("/{userName}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(@PathVariable String userName, @RequestBody String password) {
+    public UserResponse getUser(@RequestParam String userName, @RequestBody String password) {
         return userService.getUser(userName, password);
     }
 
-    @PutMapping("/{userName}/addWorkout")
+    @PutMapping("/addWorkout")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserResponse addWorkoutToUser(@PathVariable String userName, @RequestBody UserRequest userRequest) {
+    public UserResponse addWorkoutToUser(@RequestParam String userName, @RequestBody UserRequest userRequest) {
         return userService.addWorkoutToUser(userRequest);
     }
 
-    @DeleteMapping("/{userName}/deleteWorkout")
+    @DeleteMapping("/deleteWorkout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public UserResponse deleteWorkoutFromUser(@PathVariable String userName, @RequestBody UserWorkout workout) {
+    public UserResponse deleteWorkoutFromUser(@RequestParam String userName, @RequestBody UserWorkout workout) {
         return userService.deleteWorkoutFromUser(userName, workout);
     }
 
-    @DeleteMapping("/delete/{userName}")
+    @DeleteMapping("/deleteUser")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteUser(@PathVariable String userName) {
+    public boolean deleteUser(@RequestParam String userName) {
         return userService.deleteUser(userName);
     }
 

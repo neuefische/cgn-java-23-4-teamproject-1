@@ -18,4 +18,6 @@ public interface UserRepo extends MongoRepository<User, String> {
 
     Boolean deleteByUserName(String userName);
 
+    boolean existsUserByUserName(String userName);
+
 }
