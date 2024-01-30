@@ -47,8 +47,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: backend.jar
-          path: backend/target/backend.jar
+          name: backend-0.0.1-SNAPSHOT.jar
+          path: backend/target/backend-0.0.1-SNAPSHOT.jar
 
   push-to-docker-hub:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: backend.jar
+          name: backend-0.0.1-SNAPSHOT.jar
           path: backend/target
 
       - name: Login to Docker Hub
