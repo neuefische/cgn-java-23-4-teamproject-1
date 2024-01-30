@@ -25,13 +25,18 @@ export default function LoginPage() {
 
         axios.post("/login", user)
             .then(() => navigate(`/users/${userName}`))
-            .catch(error => {
-                console.error("Error updating workout", error);
+            .catch(() => {
+                showLoginError()
             });
 
         setUserName("");
         setPassword("");
     };
+
+    const showLoginError = () => {
+        <p>We don't recognize that username or password. Try again!</p>
+    }
+
 
     const redirectToLogin = () => {
         navigate("/register");

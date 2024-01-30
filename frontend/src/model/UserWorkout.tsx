@@ -1,4 +1,5 @@
 export type UserWorkout = {
+    id: string,
     workoutName: string,
     workoutDescription: string,
     workoutRepeat: number,
