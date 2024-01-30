@@ -3,6 +3,7 @@ package de.neuefische.cgn234.team1.backend.service;
 
 import de.neuefische.cgn234.team1.backend.model.User;
 import de.neuefische.cgn234.team1.backend.model.dto.UserResponse;
+import de.neuefische.cgn234.team1.backend.model.submodel.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.repo.UserRepo;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,4 @@
-package de.neuefische.cgn234.team1.backend.service;
-
-import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
+package de.neuefische.cgn234.team1.backend.model.submodel;
 
 import java.util.List;
 

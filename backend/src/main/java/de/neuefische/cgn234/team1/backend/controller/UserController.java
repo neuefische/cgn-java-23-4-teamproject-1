@@ -1,15 +1,15 @@
 package de.neuefische.cgn234.team1.backend.controller;
 
 import de.neuefische.cgn234.team1.backend.model.dto.UserResponse;
+import de.neuefische.cgn234.team1.backend.model.submodel.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
-import de.neuefische.cgn234.team1.backend.service.UserRequest;
 import de.neuefische.cgn234.team1.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -35,25 +35,25 @@ public class UserController {
 
     @GetMapping("/{userName}")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(@RequestParam String userName, @RequestBody String password) {
+    public UserResponse getUser(@PathVariable String userName, @RequestBody String password) {
         return userService.getUser(userName, password);
     }
 
     @PutMapping("/{userName}/addWorkout")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserResponse addWorkoutToUser(@RequestParam String userName, @RequestBody UserRequest userRequest) {
+    public UserResponse addWorkoutToUser(@PathVariable String userName, @RequestBody UserRequest userRequest) {
         return userService.addWorkoutToUser(userRequest);
     }
 
     @DeleteMapping("/{userName}/deleteWorkout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public UserResponse deleteWorkoutFromUser(@RequestParam String userName, @RequestBody UserWorkout workout) {
+    public UserResponse deleteWorkoutFromUser(@PathVariable String userName, @RequestBody UserWorkout workout) {
         return userService.deleteWorkoutFromUser(userName, workout);
     }
 
     @DeleteMapping("/delete/{userName}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteUser(@RequestParam String userName) {
+    public boolean deleteUser(@PathVariable String userName) {
         return userService.deleteUser(userName);
     }
 
