@@ -3,7 +3,11 @@ import {Workout} from "../model/Workout.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function WorkoutDetail() {
+type WorkoutEditProps = {
+    workout?: Workout;
+}
+
+export default function WorkoutDetail(workout: WorkoutEditProps) {
     const params = useParams()
     const id: string = params.id as string
 
