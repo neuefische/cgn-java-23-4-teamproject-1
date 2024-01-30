@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class UserServiceTest {
 
@@ -106,13 +105,10 @@ class UserServiceTest {
         Boolean expected = true;
         when(userRepo.existsUserByUserName(userName)).thenReturn(expected);
 
-        when(userRepo.deleteByUserName(userName)).thenReturn(expected);
+        doNothing().when(userRepo).deleteByUserName(userName);
 
-        //ACT
-        Boolean actual = userService.deleteUser(userName);
-
-        //ASSERT
-        assertEquals(expected, actual);
+        verify(userRepo, times(1)).deleteByUserName(userName);
+        verifyNoMoreInteractions(userRepo);
     }
 
 
