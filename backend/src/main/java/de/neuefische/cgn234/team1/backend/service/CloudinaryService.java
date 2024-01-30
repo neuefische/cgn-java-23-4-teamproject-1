@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,12 +28,13 @@ public class CloudinaryService {
             fileExtension = originalFileName.substring(i + 1);
         }
         UUID uuid = UUID.randomUUID();
-        return uuid.toString() + (fileExtension.isEmpty() ? "" : "." + fileExtension);
+        return uuid + (fileExtension.isEmpty() ? "" : "." + fileExtension);
     }
 
     public String uploadFile(@NonNull MultipartFile file) throws IOException {
         String randomFileName = generateRandomFileName(Objects.requireNonNull(file.getOriginalFilename()));
-        Path fileToUpload = Files.createTempFile("file", null);
+        Path pathToUpload = Files.createTempFile("file", null);
+        File fileToUpload = pathToUpload.toFile();
         file.transferTo(fileToUpload);
         var cloudinaryResponse = cloudinary.uploader().upload(fileToUpload, Map.of(
                 "resource_type", "auto",

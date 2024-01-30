@@ -23,7 +23,7 @@ class CloudinaryServiceTest {
         MultipartFile mockFile = mock(MultipartFile.class);
         Map<String, Object> mockResponse = Map.of("secure_url", "http://example.com/image");
 
-        when(mockFile.getOriginalFilename()).thenReturn("testfile");
+        when(mockFile.getOriginalFilename()).thenReturn("testfile.png");
         when(mockFile.getBytes()).thenReturn(new byte[]{1, 2, 3, 4, 5});
         when(mockCloudinary.uploader()).thenReturn(mock(Uploader.class));
         when(mockCloudinary.uploader().upload(any(File.class), anyMap())).thenReturn(mockResponse);
