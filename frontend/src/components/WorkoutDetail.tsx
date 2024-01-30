@@ -41,7 +41,6 @@ export default function WorkoutDetail() {
                 }
             });
             setPhotos([response.data, ...(photos ? photos : [])])
-            console.log(response.data); // Handle the response as needed
         } catch (error) {
             console.error('Error uploading image', error);
         }
