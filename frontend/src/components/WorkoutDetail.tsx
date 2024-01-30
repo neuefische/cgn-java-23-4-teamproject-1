@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 type WorkoutEditProps = {
-    workout?: Workout;
+    workout: Workout;
 }
 
 export default function WorkoutDetail(workout: WorkoutEditProps) {
