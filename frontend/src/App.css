@@ -14,7 +14,7 @@ html {
     width: 100%;
 }
 
-.WorkoutBox{
+.WorkoutBox {
     background: rgba(255, 255, 255, 0.48);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -32,7 +32,7 @@ html {
 
 body {
     background-color: black;
-    background-image: linear-gradient(45grad,black, rgba(255, 255, 255, 0.12),black);
+    background-image: linear-gradient(45grad, black, rgba(255, 255, 255, 0.12), black);
     display: flex;
     flex-wrap: wrap;
     color: antiquewhite;
@@ -162,6 +162,7 @@ div .Addworkout {
     outline: none;
     border: 2px solid #ffffff;
 }
+
 #root {
     height: 100%;
     width: 100%;
@@ -169,6 +170,7 @@ div .Addworkout {
     justify-content: center;
     align-items: center;
 }
+
 .WorkoutEdit-form {
     display: flex;
     flex-direction: column;
@@ -181,6 +183,7 @@ div .Addworkout {
     max-width: 400px;
     color: #ffffff;
 }
+
 .WorkoutEdit-form-input,
 .WorkoutEdit-form-h5 {
     width: 100%;
@@ -196,17 +199,21 @@ div .Addworkout {
     background-color: transparent;
     margin-bottom: 8px;
 }
+
 .WorkoutEdit-form-input,
 .editButton {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
+
 .WorkoutEdit-form-input:focus {
     border-color: #757575;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
+
 .WorkoutEdit-form-input::placeholder {
     color: #999;
 }
+
 .editButton {
     background-color: rgb(247, 235, 217);
     color: rgb(29, 29, 29);
@@ -217,12 +224,15 @@ div .Addworkout {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .editButton:hover {
     opacity: 0.7;
 }
+
 .editButton:active {
     opacity: 0.5;
 }
+
 .WorkoutEdit-save {
     background-color: #333;
     color: #fff;
@@ -236,9 +246,11 @@ div .Addworkout {
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .WorkoutEdit-save:hover {
     background-color: #444;
 }
+
 .WorkoutEdit-save:active {
     transform: translateY(2px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -366,4 +378,38 @@ div .modal-content {
     padding: 0.5rem;
     border-radius: 0.5rem;
     transition: background-color 0.3s;
+}
+
+
+.hideImg {
+    background-color: rgb(44, 44, 44);
+    width: 30px;
+    height: 30px;
+}
+
+.hideButton {
+    display: inline;
+    border: none;
+    box-shadow: none;
+    background-color: rgb(44, 44, 44);
+}
+
+.hideButtonDiv {
+    display: flex;
+    gap: 1px;
+}
+
+.HidePasswordInput {
+    width: 100%;
+    padding: 12px;
+    margin: 0;
+    border: 1px solid #404040;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    color: #ddd;
+}
+
+
+.RegisterForm-h3{
+    align-self: center;
 }

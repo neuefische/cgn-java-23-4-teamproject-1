@@ -8,6 +8,9 @@ import WorkoutDetail from "./components/WorkoutDetail.tsx";
 import WorkoutEdit from "./components/WorkoutEdit.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css'
+import LoginPage from "./components/LoginPage.tsx";
+import UserPage from "./components/UserPage.tsx";
+import RegisterPage from "./components/RegisterPage.tsx";
 
 
 function App() {
@@ -49,6 +52,7 @@ function App() {
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
                 <Link to="/add">Add Workout</Link>
+                <Link to="/login">Login</Link>
             </div>
 
             <Routes>
@@ -57,9 +61,11 @@ function App() {
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
                 <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
+                <Route path={"/login"} element={<LoginPage />}/>
+                <Route path={"/login"} element={<LoginPage />}/>
+                <Route path={"/register"} element={<RegisterPage />}/>
+                <Route path={"/user/:userName"} element={<UserPage />}/>
             </Routes>
-
-
         </>
     )
 }

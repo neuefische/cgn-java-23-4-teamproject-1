@@ -16,14 +16,11 @@ export type WorkoutRequest = {
 export default function AddWorkout(addWorkout: AddWorkoutProps) {
     const [show, setShow] = useState(false);
 
-
-
     const [workoutName, setWorkoutName] = useState<string>("");
     const [workoutDescription, setWorkoutDescription] = useState<string>("");
 
     function onNameChange(event: ChangeEvent<HTMLTextAreaElement>) {
         setWorkoutName(event.target.value)
-
     }
 
     function onDescriptionChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -42,11 +39,8 @@ export default function AddWorkout(addWorkout: AddWorkoutProps) {
             setShow(false)
                 setWorkoutName(response.data.workoutName);
                 setWorkoutDescription(response.data.workoutDescription);
-
             }
         )
-
-
     }
 
     function update(event: React.MouseEvent<HTMLButtonElement>) {
