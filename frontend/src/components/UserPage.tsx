@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import WorkOutChooser from "./WorkoutChooser.tsx";
 import axios from "axios";
+import UserPageWorkoutBox from "./UserPageWorkoutBox.tsx";
 
 type UserPageProps = {
     user: User;
@@ -195,7 +196,7 @@ export default function UserPage({user, workoutList}: UserPageProps) {
                 <h3>Workouts</h3>
                 <div className="UserWorkoutBox">
                     {userWorkoutList.map((workout) => (
-                        <UserPageWorkoutBox workout={workout} deleteWorkout={deleteWorkout}
+                        <UserPageWorkoutBox user={userPage} workout={workout} deleteWorkout={deleteWorkout}
                                             editWorkout={postUserWorkout}/>
                     ))}
                 </div>
