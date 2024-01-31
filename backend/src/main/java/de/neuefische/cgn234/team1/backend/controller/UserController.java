@@ -6,6 +6,9 @@ import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,8 +20,8 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public boolean login(@RequestBody UserRequest userRequest) {
-        return userService.login(userRequest.userName(), userRequest.password());
+    public boolean login() {
+        return userService.login();
     }
 
     @GetMapping("/logout")
@@ -54,6 +57,17 @@ public class UserController {
     @DeleteMapping("/deleteUser")
     public boolean deleteUser(@RequestParam String userName) {
         return userService.deleteUser(userName);
+    }
+
+    @GetMapping("me")
+    public String getMe() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth instanceof OAuth2AuthenticationToken token) {
+            return token.getPrincipal().getAttributes().get("login").toString();
+        }
+
+        return auth.getName();
     }
 
 

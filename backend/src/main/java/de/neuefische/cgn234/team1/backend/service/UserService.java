@@ -7,6 +7,8 @@ import de.neuefische.cgn234.team1.backend.model.submodel.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,18 +21,18 @@ public class UserService {
 
     private final UserRepo userRepo;
 
-    public UserResponse createNewUser(String userName, String password) {
+    public UserResponse createNewUser(String userName) {
         if (userRepo.existsUserByUserName(userName)) {
             throw new IllegalArgumentException("User already exists");
         }
-        userRepo.save(new User(userName, password, new ArrayList<>()));
+        userRepo.save(new User(userName, new ArrayList<>()));
         return new UserResponse(userName, new ArrayList<>());
     }
 
-    public UserResponse getUser(String userName, String password) {
+    public UserResponse getUser(String userName) {
         User user = userRepo.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        if (!user.password().equals(password)) {
-            throw new IllegalArgumentException("Wrong password");
+        if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            throw new IllegalArgumentException("Not Logged in");
         }
         return new UserResponse(user.userName(), user.userWorkoutList());
     }
@@ -47,7 +49,7 @@ public class UserService {
             }
         }
         User user = userRepo.findByUserName(userRequest.userName()).get();
-        User userToBeSafed = new User(user.userName(), user.password(), updatedList);
+        User userToBeSafed = new User(user.userName(), updatedList);
         userRepo.save(userToBeSafed);
         return new UserResponse(userToBeSafed.userName(), userToBeSafed.userWorkoutList());
     }
@@ -56,7 +58,7 @@ public class UserService {
         User user = userRepo.findByUserName(userName).get();
         List<UserWorkout> updatedList = new ArrayList<>(user.userWorkoutList());
         updatedList.remove(workout);
-        userRepo.save(new User(user.userName(), user.password(), updatedList));
+        userRepo.save(new User(user.userName(), updatedList));
         return new UserResponse(user.userName(), updatedList);
     }
 
@@ -70,12 +72,17 @@ public class UserService {
 
     }
 
-    public boolean login(String userName, String password) {
+    public boolean login() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         Optional<User> user = userRepo.findByUserName(userName);
         if (user.isPresent()) {
-            return user.get().password().equals(password);
+            return true;
+        } else {
+            createNewUser(userName);
+            boolean isCreated = userRepo.existsUserByUserName(userName);
+            return isCreated;
         }
-        return false;
     }
 
     public boolean logout(String userName) {

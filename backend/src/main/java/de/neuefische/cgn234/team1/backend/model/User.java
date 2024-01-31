@@ -7,7 +7,6 @@ import java.util.List;
 public record User(
 
         String userName,
-        String password,
         List<UserWorkout> userWorkoutList
 
 ) {
