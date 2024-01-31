@@ -50,10 +50,10 @@ function App() {
         getCurrentUser()
     }, [])
 
-    function login() {
+    function login(provider: "google" | "github") {
         const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
 
-        window.open(host + '/oauth2/authorization/google', '_self')
+        window.open(host + '/oauth2/authorization/' + provider, '_self')
     }
 
     function logout() {
@@ -67,7 +67,10 @@ function App() {
             <div className="NAVBAR">
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
-                {(!loggedInUser || loggedInUser === 'anonymousUser') && <button onClick={login}>Login</button>}
+                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
+                    <button onClick={() => login("google")}>Google Login</button>}
+                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
+                    <button onClick={() => login("github")}>Github Login</button>}
                 {(loggedInUser && loggedInUser !== 'anonymousUser') && <h2>{loggedInUser}
                     <button onClick={logout}>Logout</button>
                 </h2>}

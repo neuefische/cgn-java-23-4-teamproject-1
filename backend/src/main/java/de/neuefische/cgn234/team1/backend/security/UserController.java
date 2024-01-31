@@ -22,19 +22,22 @@ public class UserController {
         if (principalObject instanceof OAuth2User) {
             OAuth2User oAuth2User = (OAuth2User) principalObject;
 
-            if (principal.getAttribute("iss") != null && principal.getAttribute("iss").toString().contains("accounts.google.com")) {
-                System.out.println("Security: " + oAuth2User.getAttribute("email"));
-                System.out.println("Principal: " + principal.getAttribute("email"));
+            if (principal.getAttribute("iss") != null) {
+                if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
+                    System.out.println("Security: " + oAuth2User.getAttribute("email"));
+                    System.out.println("Principal: " + principal.getAttribute("email"));
+                }
             } else {
                 System.out.println("Security: " + oAuth2User.getAttribute("login"));
                 System.out.println("Principal: " + principal.getAttribute("login"));
             }
         }
 
-        if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
-            return principal.getAttribute("email");
-        } else {
-            return principal.getAttribute("login");
+        if (principal.getAttribute("iss") != null) {
+            if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
+                return principal.getAttribute("email");
+            }
         }
+        return principal.getAttribute("login");
     }
 }
