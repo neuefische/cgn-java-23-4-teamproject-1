@@ -5,7 +5,7 @@ import {LoadingSpinnerComponent} from "../assets/Spinner.tsx";
 
 
 type AddWorkoutProps = {
-    addWorkout: (workout: WorkoutRequest) => void;
+    addWorkout: (workout: WorkoutRequest) => void
 }
 export type WorkoutRequest = {
     workoutName: string,
