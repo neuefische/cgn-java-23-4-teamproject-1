@@ -6,6 +6,7 @@ import de.neuefische.cgn234.team1.backend.repo.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -42,5 +43,20 @@ public class WorkoutService {
 
     public Workout editWorkout(Workout newWorkout) {
         return workoutRepository.save(newWorkout);
+    }
+
+    public void attachPhoto(String id, String photoUrl) {
+        Optional<Workout> workout = workoutRepository.findById(id);
+        if (workout.isPresent()) {
+            Workout presentWorkout = workout.get();
+            List<String> photos = presentWorkout.workoutPhotos();
+            if (photos == null) {
+                photos = new ArrayList<>();
+            }
+
+            photos.addFirst(photoUrl);
+
+            workoutRepository.save(presentWorkout.withPhotos(photos));
+        }
     }
 }

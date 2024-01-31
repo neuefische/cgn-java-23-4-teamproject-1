@@ -2,8 +2,8 @@ import {Workout} from "../model/Workout.tsx";
 import WorkoutBox from "./WorkoutBox.tsx";
 
 type WorkoutGalleryProps = {
-    workoutList: Workout[];
-    deleteWorkout: (workout: Workout) => void;
+    workoutList: Workout[],
+    deleteWorkout: (workout: Workout) => void
 }
 
 export default function WorkoutGallery(props: WorkoutGalleryProps) {

@@ -2,9 +2,9 @@ import {Workout} from "../model/Workout.tsx";
 import {Link} from "react-router-dom";
 
 
-type WorkoutProps = {
-    workout: Workout
-    deleteWorkout: (workout: Workout) => void;
+type WorkoutProps={
+    workout: Workout,
+    deleteWorkout: (workout: Workout) => void
 
 }
 
