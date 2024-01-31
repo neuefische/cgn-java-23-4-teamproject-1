@@ -11,17 +11,26 @@ import './App.css'
 import LoginPage from "./components/LoginPage.tsx";
 import UserPage from "./components/UserPage.tsx";
 import RegisterPage from "./components/RegisterPage.tsx";
+import {User} from "./model/User.tsx";
 
 
 function App() {
 
 
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
-
+    const [user, setUser] = useState<User>({})
+    const [loggedIn, setLoggedIn] = useState<boolean>(false)
     function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
             setWorkoutList(response.data))
     }
+
+    useEffect(() => {
+        axios.get("/user").then(response => {
+
+        }
+    }
+
 
     function addWorkout(workout: WorkoutRequest) {
         axios.post("/api/workouts", {
@@ -52,7 +61,7 @@ function App() {
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
                 <Link to="/add">Add Workout</Link>
-                <Link to="/login">Login</Link>
+                {!loggedIn && <Link to="/login">Login</Link>}
             </div>
 
             <Routes>
@@ -62,9 +71,8 @@ function App() {
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
                 <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
                 <Route path={"/login"} element={<LoginPage />}/>
-                <Route path={"/login"} element={<LoginPage />}/>
                 <Route path={"/register"} element={<RegisterPage />}/>
-                <Route path={"/user/:userName"} element={<UserPage />}/>
+                <Route path={`/user/:${user.username}`} element={<UserPage workoutList={workoutList} user={{}}/>}/>
             </Routes>
         </>
     )

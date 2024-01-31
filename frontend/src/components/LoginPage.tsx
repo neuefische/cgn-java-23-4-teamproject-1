@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import {User} from "../model/User.tsx";
 
 export default function LoginPage() {
@@ -23,6 +22,11 @@ export default function LoginPage() {
     const login = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        const host = window.location.host === "localhost:5173" ? "http://localhost:8080" : window.location.origin;
+
+        window.open(host + '/oauth2/authorization/github', '_self');
+
+        /*
         axios.post("/login", user)
             .then(() => navigate(`/users/${userName}`))
             .catch(() => {
@@ -30,12 +34,12 @@ export default function LoginPage() {
             });
 
         setUserName("");
-        setPassword("");
+        setPassword("");*/
     };
 
-    const showLoginError = () => {
-        <p>We don't recognize that username or password. Try again!</p>
-    }
+    /* const showLoginError = () => {
+         <p>We don't recognize that username or password. Try again!</p>
+     }*/
 
 
     const redirectToLogin = () => {
@@ -46,7 +50,7 @@ export default function LoginPage() {
         <form onSubmit={login} className="WorkoutEdit-form">
             <h5 className="WorkoutEdit-form-h5">User name</h5>
             <input
-                value={userName}
+                value={user.userName}
                 onChange={(e) => setUserName(e.target.value)}
                 className="WorkoutEdit-form-input"
             />
