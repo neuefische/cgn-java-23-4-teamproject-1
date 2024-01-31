@@ -7,6 +7,7 @@ import {Button} from "react-bootstrap";
 import WorkOutChooser from "./WorkoutChooser.tsx";
 import axios from "axios";
 import UserPageWorkoutBox from "./UserPageWorkoutBox.tsx";
+import WorkoutPhotoUpload from "./WorkoutPhotoUpload.tsx";
 
 type UserPageProps = {
     user: User;
@@ -16,6 +17,7 @@ type UserPageProps = {
 export default function UserPage({user, workoutList}: UserPageProps) {
     const [userWorkoutList, setUserWorkoutList] = useState<UserWorkout[]>([])
     const [workoutName, setWorkoutName] = useState<string>("");
+    const [workoutPhotos, setWorkoutPhotos] = useState<string[]>([]);
     const [workoutDescription, setWorkoutDescription] = useState<string>("");
     const [modal, setModal] = useState<boolean>(false);
     const [editModal, setEditModal] = useState<boolean>(false);
@@ -24,10 +26,9 @@ export default function UserPage({user, workoutList}: UserPageProps) {
     const [workoutWeight, setWorkoutWeight] = useState<number>(0);
     const [workoutTime, setWorkoutTime] = useState<number>(0);
     const [workoutBreak, setWorkoutBreak] = useState<number>(0);
-    const [stateWorkoutList, setStateWorkoutList] = useState<Workout[]>([]);
+    const [stateWorkoutList, setStateWorkoutList] = useState<Workout>();
     const userPage: User = {
         userName: user.userName,
-        password: user.password,
         userWorkoutList: userWorkoutList
     };
 
@@ -60,7 +61,7 @@ export default function UserPage({user, workoutList}: UserPageProps) {
     }
 
     function addStateWorkoutList(workout: Workout) {
-        setStateWorkoutList([...stateWorkoutList, workout])
+        setStateWorkoutList(workout)
     }
 
     function openEdit() {
@@ -68,9 +69,26 @@ export default function UserPage({user, workoutList}: UserPageProps) {
         setEditModal(true);
     }
 
+    const savePhoto = async (file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("workoutName", workoutName);
+
+        try {
+            const response = await axios.post('/api/upload/image/' + user.userName, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            setWorkoutPhotos([response.data, ...(workoutPhotos ? workoutPhotos : [])])
+        } catch (error) {
+            console.error('Error uploading image', error);
+        }
+    }
     function deleteWorkout(workout: UserWorkout) {
         axios.delete<boolean>(`/user/deleteWorkout?userName=${user.userName}`, {
             data: {
+                workoutPhotos: workout.workoutPhotos,
                 workoutName: workout.workoutName,
                 workoutDescription: workout.workoutDescription,
                 workoutRepeat: workoutRepeats,
@@ -89,6 +107,7 @@ export default function UserPage({user, workoutList}: UserPageProps) {
 
     function addWorkout(event: React.FormEvent<HTMLButtonElement>) {
         const userWorkout: UserWorkout = {
+            workoutPhotos: workoutPhotos,
             workoutName: workoutName,
             workoutDescription: workoutDescription,
             workoutRepeat: workoutRepeats,
@@ -101,6 +120,7 @@ export default function UserPage({user, workoutList}: UserPageProps) {
         userPage.userWorkoutList = userWorkoutList;
         postUserWorkout(userPage, userPage.userName);
         setEditModal(false);
+        setStateWorkoutList(undefined)
         console.log(event.target)
 
     }
@@ -108,7 +128,6 @@ export default function UserPage({user, workoutList}: UserPageProps) {
     function postUserWorkout(user: User, userName: string) {
         axios.post(`/user/addWorkout?userName= ${userName}`, {
             userName: user.userName,
-            userPassword: user.password,
             userWorkoutList: userWorkoutList
         }).then((response) => {
             setUserWorkoutList(response.data)
@@ -132,19 +151,24 @@ export default function UserPage({user, workoutList}: UserPageProps) {
                 <Modal.Body>
                     <form className="WorkoutEdit-form">
                         <h4 className={"RegisterForm-h3"}>Workout</h4>
+                        <h5 className="WorkoutEdit-form-h5">Photos</h5>
+                        <WorkoutPhotoUpload savePhoto={savePhoto}/>
+                        {workoutPhotos?.map((photo, index) =>
+                            <img src={photo} key={index} alt="A workout photo"/>
+                        )}
                         <h5 className="WorkoutEdit-form-h5">Name</h5>
                         <input
                             type={"text"}
-                            value={stateWorkoutList[0].workoutName}
+                            value={stateWorkoutList?.workoutName || ""}
                             onChange={onChangeWorkoutName}
                             className="WorkoutEdit-form-input"
-                        >{stateWorkoutList[0].workoutName}</input>
+                        >{stateWorkoutList?.workoutName || ""}</input>
                         <h5 className="WorkoutEdit-form-h5">Description</h5>
                         <textarea rows={5}
-                                  value={stateWorkoutList[0].workoutDescription}
+                                  value={stateWorkoutList?.workoutDescription || ""}
                                   onChange={onChangeWorkoutDescription}
                                   className="WorkoutEdit-form-textarea"
-                        >{stateWorkoutList[0].workoutDescription}</textarea>
+                        >{stateWorkoutList?.workoutDescription || ""}</textarea>
                         <h5 className="WorkoutEdit-form-h5">Repeats</h5>
                         <input
                             value={workoutRepeats}

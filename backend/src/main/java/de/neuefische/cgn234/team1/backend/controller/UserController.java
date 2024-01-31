@@ -1,7 +1,8 @@
 package de.neuefische.cgn234.team1.backend.controller;
 
+import de.neuefische.cgn234.team1.backend.model.User;
+import de.neuefische.cgn234.team1.backend.model.dto.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.dto.UserResponse;
-import de.neuefische.cgn234.team1.backend.model.submodel.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,29 +19,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public boolean login() {
-        return userService.login();
-    }
-
-    @GetMapping("/logout")
-    @ResponseStatus(HttpStatus.OK)
-    public boolean logout(@RequestBody String userName) {
-        return userService.logout(userName);
-    }
-
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@RequestBody String[] userInfo) {
-        return userService.createNewUser(userInfo[0], userInfo[1]);
-    }
-
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(@RequestParam String userName, @RequestBody String password) {
-        return userService.getUser(userName, password);
-    }
 
     @PutMapping("/addWorkout")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -59,15 +37,16 @@ public class UserController {
         return userService.deleteUser(userName);
     }
 
-    @GetMapping("me")
-    public String getMe() {
+    @GetMapping("/me")
+    public User getMe() throws IllegalArgumentException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth instanceof OAuth2AuthenticationToken token) {
-            return token.getPrincipal().getAttributes().get("login").toString();
+            return userService.getUser(token.getPrincipal().getAttributes().get("login").toString());
         }
 
-        return auth.getName();
+
+        throw new IllegalArgumentException("Not logged in");
     }
 
 

@@ -18,7 +18,7 @@ function App() {
 
 
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
-    const [user, setUser] = useState<User>({})
+    const [user, setUser] = useState<User>()
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
 
     function getAllWorkouts() {
@@ -26,10 +26,14 @@ function App() {
             setWorkoutList(response.data))
     }
 
-    useEffect(() => {
-        axios.get("/user").then(response => {
-
-        }
+    function getUser() {
+        axios.get("/user/me").then(response => {
+            setUser(response.data)
+            setLoggedIn(true)
+        }).catch(() => {
+            setUser(undefined)
+            setLoggedIn(false)
+        })
     }
 
 
@@ -51,6 +55,15 @@ function App() {
         )
     }
 
+    const login = () => {
+        const host = window.location.host === "localhost:5173" ? "http://localhost:8080" : window.location.origin;
+        window.open(host + '/oauth2/authorization/github', '_self');
+
+        setLoggedIn(true);
+        getUser();
+
+    }
+
 
     useEffect(() => {
         getAllWorkouts()
@@ -62,7 +75,10 @@ function App() {
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
                 <Link to="/add">Add Workout</Link>
-                {!loggedIn && <Link to="/login">Login</Link>}
+                {!loggedIn && <button type={"button"} onClick={login}>LOGIN</button>}
+                {loggedIn &&
+                    <Link to={`/user/:` + user?.userName}><img src={"frontend/src/assets/customer.png"}/></Link>}
+
             </div>
 
             <Routes>
@@ -71,9 +87,10 @@ function App() {
                 <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
                 <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
-                <Route path={"/login"} element={<LoginPage/>}/>
+                <Route path={"/login"} element={<LoginPage getUser={getUser}/>}/>
                 <Route path={"/register"} element={<RegisterPage/>}/>
-                <Route path={`/user/:${user.username}`} element={<UserPage workoutList={workoutList} user={{}}/>}/>
+                {user && <Route path={`/user/:` + user?.userName}
+                                element={<UserPage workoutList={workoutList} user={user}/>}/>}
             </Routes>
         </>
     )

@@ -1,7 +1,6 @@
 package de.neuefische.cgn234.team1.backend.security;
 
 import de.neuefische.cgn234.team1.backend.model.User;
-import de.neuefische.cgn234.team1.backend.model.dto.GithubUser;
 import de.neuefische.cgn234.team1.backend.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -58,7 +57,6 @@ public class SecurityConfig {
                 });
         return http.build();
     }
-
     @Bean
     public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
         DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
@@ -67,14 +65,14 @@ public class SecurityConfig {
             OAuth2User user = delegate.loadUser(request);
 
             if (!userRepo.existsUserByUserName(user.getName())) {
-                GithubUser newUser = new GithubUser(user.getAttributes());
-                User userToSave = new User(newUser.name(), newUser.id(), new ArrayList<>());
-                userRepo.save(userToSave);
+                User newUser = new User(user.getName(), new ArrayList<>());
+                userRepo.save(newUser);
             }
 
             return user;
         };
     }
+
 }
 
 

@@ -1,4 +1,5 @@
 export type UserWorkout = {
+    workoutPhotos: string[],
     workoutName: string,
     workoutDescription: string,
     workoutRepeat: number,

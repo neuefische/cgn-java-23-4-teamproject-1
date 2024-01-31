@@ -2,7 +2,11 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {User} from "../model/User.tsx";
 
-export default function LoginPage() {
+type LoginPageProps = {
+    getUser: () => void
+}
+
+export default function LoginPage({getUser}: LoginPageProps) {
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -15,7 +19,6 @@ export default function LoginPage() {
 
     const user: User = {
         userName: userName,
-        password: password,
         userWorkoutList: null
     }
 

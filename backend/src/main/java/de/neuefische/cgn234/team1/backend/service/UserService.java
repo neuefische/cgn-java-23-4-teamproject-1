@@ -2,12 +2,11 @@ package de.neuefische.cgn234.team1.backend.service;
 
 
 import de.neuefische.cgn234.team1.backend.model.User;
+import de.neuefische.cgn234.team1.backend.model.dto.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.dto.UserResponse;
-import de.neuefische.cgn234.team1.backend.model.submodel.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -21,20 +20,13 @@ public class UserService {
 
     private final UserRepo userRepo;
 
-    public UserResponse createNewUser(String userName) {
-        if (userRepo.existsUserByUserName(userName)) {
-            throw new IllegalArgumentException("User already exists");
-        }
-        userRepo.save(new User(userName, new ArrayList<>()));
-        return new UserResponse(userName, new ArrayList<>());
-    }
 
-    public UserResponse getUser(String userName) {
+    public User getUser(String userName) {
         User user = userRepo.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             throw new IllegalArgumentException("Not Logged in");
         }
-        return new UserResponse(user.userName(), user.userWorkoutList());
+        return user;
     }
 
     public UserResponse addWorkoutToUser(UserRequest userRequest) {
@@ -72,24 +64,31 @@ public class UserService {
 
     }
 
-    public boolean login() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userName = auth.getName();
+    public void attachPhoto(String userName, String photoUrl, String workoutName) {
         Optional<User> user = userRepo.findByUserName(userName);
         if (user.isPresent()) {
-            return true;
-        } else {
-            createNewUser(userName);
-            boolean isCreated = userRepo.existsUserByUserName(userName);
-            return isCreated;
-        }
-    }
+            User presentUser = user.get();
+            UserWorkout oldWorkout = presentUser.userWorkoutList().stream()
+                    .filter(workout -> workout.workoutName().equals(workoutName)).findFirst().get();
+            List<String> workoutPhotos = new ArrayList<>(oldWorkout.workoutPhotos());
 
-    public boolean logout(String userName) {
-        Optional<User> user = userRepo.findByUserName(userName);
-        if (user.isPresent()) {
-            return true;
+            if (workoutPhotos == null) {
+                workoutPhotos = new ArrayList<>();
+            }
+            workoutPhotos.addFirst(photoUrl); // Füge neues Foto der Liste hinzu hier muss getestet werden ob die Liste modifiable ist
+
+            List<UserWorkout> userWorkoutList = presentUser.userWorkoutList(); // Hole die Liste der Workouts des Users
+
+
+            UserWorkout newWorkout = oldWorkout.withWorkoutPhotos(workoutPhotos); // Erstelle ein neues Workout mit der neuen Liste der Fotos
+
+            userWorkoutList.remove(oldWorkout); // Lösche das alte Workout aus der Liste
+
+            userWorkoutList.add(newWorkout);// Füge das neue Workout der Liste hinzu
+
+            userRepo.save(presentUser.withUserWorkoutList(userWorkoutList)); // Speichere den User mit der neuen Liste der Workouts ab und ersetze den Alten dabei
+        } else {
+            throw new IllegalArgumentException("User not found");
         }
-        return false;
     }
 }
