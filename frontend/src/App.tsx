@@ -14,10 +14,16 @@ function App() {
 
 
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
+    const [loggedInUser, setLoggedInUser] = useState<string>("")
 
     function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
             setWorkoutList(response.data))
+    }
+
+    function getCurrentUser() {
+        axios.get("/api/users/me").then(response =>
+            setLoggedInUser(response.data))
     }
 
     function addWorkout(workout: WorkoutRequest) {
@@ -41,13 +47,22 @@ function App() {
 
     useEffect(() => {
         getAllWorkouts()
+        getCurrentUser()
     }, [])
+
+    function login() {
+        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
+
+        window.open(host + '/oauth2/authorization/github', '_self')
+    }
 
     return (
         <>
             <div className="NAVBAR">
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
+                {(!loggedInUser || loggedInUser === 'anonymousUser') && <button onClick={login}>Login</button>}
+                {loggedInUser && <h2>{loggedInUser}</h2>}
                 <Link to="/add">Add Workout</Link>
             </div>
 
