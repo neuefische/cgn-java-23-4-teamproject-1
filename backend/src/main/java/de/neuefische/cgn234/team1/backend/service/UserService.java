@@ -7,7 +7,6 @@ import de.neuefische.cgn234.team1.backend.model.dto.UserResponse;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,18 +22,11 @@ public class UserService {
 
     public User getUser(String userName) {
         Optional<User> user = userRepo.findByUserName(userName);
-        if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            throw new IllegalArgumentException("Not Logged in");
-        } else {
             if (user.isPresent()) {
                 return user.get();
             } else {
                 return createUser(userName);
             }
-
-
-
-        }
     }
 
     private User createUser(String userName) {

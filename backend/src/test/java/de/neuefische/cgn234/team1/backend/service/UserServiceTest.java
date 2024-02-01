@@ -25,7 +25,6 @@ class UserServiceTest {
     void getUser() {
         //ARRANGE
         String userName = "Test1";
-        String password = "1234";
         User expected = new User("Test1", new ArrayList<>());
         when(userRepo.findByUserName(expected.userName()))
                 .thenReturn(Optional.of(
@@ -83,15 +82,22 @@ class UserServiceTest {
 
     @Test
     void deleteUserTest() {
-        //ARRANGE
+        // ARRANGE
         String userName = "test1";
         User user = new User("test1", new ArrayList<>());
-        Boolean expected = true;
-        when(userRepo.existsUserByUserName(userName)).thenReturn(expected);
-
+        Boolean userExists = true;
+        when(userRepo.existsUserByUserName(userName)).thenReturn(userExists);
         doNothing().when(userRepo).deleteByUserName(userName);
+        boolean expected = false;
 
-        verify(userRepo, times(1)).deleteByUserName(userName);
+        // ACT
+        Boolean actual = userService.deleteUser(userName);
+
+        // ASSERT
+        assertEquals(expected, actual);
+
+        verify(userRepo).deleteByUserName(userName);
+        verify(userRepo, times(2)).existsUserByUserName(userName);
         verifyNoMoreInteractions(userRepo);
     }
 
