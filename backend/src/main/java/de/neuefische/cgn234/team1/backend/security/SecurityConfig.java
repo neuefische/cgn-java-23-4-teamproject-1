@@ -1,5 +1,6 @@
 package de.neuefische.cgn234.team1.backend.security;
 
+<<<<<<< HEAD
 import de.neuefische.cgn234.team1.backend.model.User;
 import de.neuefische.cgn234.team1.backend.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+<<<<<<< HEAD
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(authorizeHttpRequests ->
@@ -47,13 +49,24 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/user/deleteWorkout").authenticated()
                                 .requestMatchers(HttpMethod.DELETE, "/user/deleteUser").authenticated()
                                 .anyRequest().permitAll())
-                .oauth2Login(o -> {
+                .oauth2Login(c -> {
                     try {
-                        o.init(http);
+                        c.init(http);
+                        if (environment.equals("prod")) {
+                            c.defaultSuccessUrl("/", true);
+                        } else {
+                            c.defaultSuccessUrl("http://localhost:5173", true);
+                        }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                    o.defaultSuccessUrl("http://localhost:5173/", true);
+                })
+                .logout(logout -> {
+                    if (environment.equals("prod")) {
+                        logout.logoutSuccessUrl("/").permitAll();
+                    } else {
+                        logout.logoutSuccessUrl("http://localhost:5173").permitAll();
+                    }
                 });
         return http.build();
     }
@@ -76,3 +89,32 @@ public class SecurityConfig {
 }
 
 
+=======
+                .authorizeHttpRequests(a -> a
+                        .anyRequest().permitAll()
+                )
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .logout(logout -> {
+                    if (environment.equals("prod")) {
+                        logout.logoutSuccessUrl("/").permitAll();
+                    } else {
+                        logout.logoutSuccessUrl("http://localhost:5173").permitAll();
+                    }
+                })
+                .oauth2Login(c -> {
+                    try {
+                        c.init(http);
+                        if (environment.equals("prod")) {
+                            c.defaultSuccessUrl("/", true);
+                        } else {
+                            c.defaultSuccessUrl("http://localhost:5173", true);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+        return http.build();
+    }
+
+}
+>>>>>>> google-login

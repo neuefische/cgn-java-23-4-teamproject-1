@@ -20,6 +20,7 @@ function App() {
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
     const [user, setUser] = useState<User>()
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
+    const [loggedInUser, setLoggedInUser] = useState<string>("")
 
     function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
@@ -55,25 +56,38 @@ function App() {
         )
     }
 
-    const login = () => {
-        const host = window.location.host === "localhost:5173" ? "http://localhost:8080" : window.location.origin;
-        window.open(host + '/oauth2/authorization/github', '_self');
-
-        setLoggedIn(true);
-        getUser();
-
-    }
-
 
     useEffect(() => {
         getAllWorkouts()
+        getUser()
     }, [])
+
+    function login(provider: "google" | "github") {
+        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
+
+        window.open(host + '/oauth2/authorization/' + provider, '_self')
+
+        setLoggedIn(true);
+    }
+
+    function logout() {
+        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
+
+        window.open(host + '/logout', '_self')
+    }
 
     return (
         <>
             <div className="NAVBAR">
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
+                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
+                    <button onClick={() => login("google")}>Google Login</button>}
+                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
+                    <button onClick={() => login("github")}>Github Login</button>}
+                {(loggedInUser && loggedInUser !== 'anonymousUser') && <h2>{loggedInUser}
+                    <button onClick={logout}>Logout</button>
+                </h2>}
                 <Link to="/add">Add Workout</Link>
                 {!loggedIn && <button type={"button"} onClick={login}>LOGIN</button>}
                 {loggedIn &&
