@@ -41,7 +41,8 @@ public class SecurityConfig {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                });
+                })
+                .logout(l -> l.logoutUrl("/api/logout").logoutSuccessHandler(((request, response, authentication) -> response.setStatus(200))));
         return http.build();
     }
 
