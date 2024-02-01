@@ -31,7 +31,7 @@ public class SecurityConfig {
         this.userRepo = userRepo;
     }
 
-    @Value("${app.enviroment}")
+    @Value("${app.environment}")
     private String environment;
 
     @Bean

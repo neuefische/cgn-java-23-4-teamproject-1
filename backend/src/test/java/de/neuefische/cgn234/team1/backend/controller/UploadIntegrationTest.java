@@ -19,8 +19,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -49,8 +51,12 @@ class UploadIntegrationTest {
         when(cloudinary.uploader().upload(any(File.class), anyMap())).thenReturn(mockResponse);
 
         // ACT
-        mvc.perform(multipart("/api/upload/image/" + id).file(file).contentType(MediaType.MULTIPART_FORM_DATA))
-                // ASSERT
+        mvc.perform(multipart("/api/upload/image/" + id)
+                        .file(file)
+                        .file(new MockMultipartFile("workoutName", "", "text/plain", "Legs".getBytes()))
+                        .with(oidcLogin().userInfoToken(token -> token.claim("login", "test-user")))
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().string(imageUrl));
 
