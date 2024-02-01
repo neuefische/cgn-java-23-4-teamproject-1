@@ -17,7 +17,7 @@ class CloudinaryServiceTest {
 
     private final Cloudinary mockCloudinary = mock(Cloudinary.class);
 
-    private final UserService mockWorkoutService = mock(UserService.class);
+    private final UserService mockUserService = mock(UserService.class);
 
     @Test
     void uploadFileTest_whenFileIsProvided_whenReturnUrlToFile() throws IOException {
@@ -32,13 +32,13 @@ class CloudinaryServiceTest {
         when(mockCloudinary.uploader()).thenReturn(mock(Uploader.class));
         when(mockCloudinary.uploader().upload(any(File.class), anyMap())).thenReturn(mockResponse);
 
-        CloudinaryService serviceUnderTest = new CloudinaryService(mockCloudinary, mockWorkoutService);
+        CloudinaryService serviceUnderTest = new CloudinaryService(mockCloudinary, mockUserService);
         // ACT
-        String result = serviceUnderTest.uploadFile(mockFile, userName, workoutName);
+        String result = serviceUnderTest.uploadFile(mockFile, workoutName, userName);
 
         // ASSERT
         assertEquals("http://example.com/image", result);
-        verify(mockWorkoutService).attachPhoto(userName, result, workoutName);
-        verifyNoMoreInteractions(mockWorkoutService);
+        verify(mockUserService).attachPhoto(userName, result, workoutName);
+        verifyNoMoreInteractions(mockUserService);
     }
 }
