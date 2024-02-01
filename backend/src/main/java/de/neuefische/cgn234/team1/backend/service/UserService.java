@@ -100,7 +100,10 @@ public class UserService {
 
             userWorkoutList.add(newWorkout);// Füge das neue Workout der Liste hinzu
 
-            userRepo.save(presentUser.withUserWorkoutList(userWorkoutList)); // Speichere den User mit der neuen Liste der Workouts ab und ersetze den Alten dabei
+            User tempUser = presentUser.withUserWorkoutList(userWorkoutList);
+
+
+            userRepo.save(tempUser); // Speichere den User mit der neuen Liste der Workouts ab und ersetze den Alten dabei
         } else {
             throw new IllegalArgumentException("User not found");
         }

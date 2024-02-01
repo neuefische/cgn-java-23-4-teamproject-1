@@ -46,7 +46,7 @@ public class CloudinaryService {
         ));
 
         String imageUrl = cloudinaryResponse.get("secure_url").toString();
-        userService.attachPhoto(workoutName, imageUrl, userName);
+        userService.attachPhoto(userName, imageUrl, workoutName);
 
         return imageUrl;
     }
