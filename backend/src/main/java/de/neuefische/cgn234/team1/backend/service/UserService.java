@@ -22,10 +22,24 @@ public class UserService {
 
 
     public User getUser(String userName) {
-        User user = userRepo.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Optional<User> user = userRepo.findByUserName(userName);
         if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             throw new IllegalArgumentException("Not Logged in");
+        } else {
+            if (user.isPresent()) {
+                return user.get();
+            } else {
+                return createUser(userName);
+            }
+
+
+
         }
+    }
+
+    private User createUser(String userName) {
+        User user = new User(userName, new ArrayList<>());
+        userRepo.save(user);
         return user;
     }
 

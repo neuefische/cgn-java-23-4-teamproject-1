@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -43,6 +43,9 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth instanceof OAuth2AuthenticationToken token) {
+            if (token.getPrincipal().getAttributes().get("iss") != null) {
+                return userService.getUser(token.getPrincipal().getAttributes().get("email").toString());
+            }
             return userService.getUser(token.getPrincipal().getAttributes().get("login").toString());
         }
 

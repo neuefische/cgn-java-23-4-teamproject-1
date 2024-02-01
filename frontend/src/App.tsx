@@ -16,7 +16,6 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 function App() {
 
-
     const [workoutList, setWorkoutList] = useState<Workout[]>([])
     const [user, setUser] = useState<User>()
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
@@ -29,9 +28,13 @@ function App() {
     }
 
     function getUser() {
-        axios.get("/user/me").then(response => {
+        axios.get("/api/user/me").then(response => {
+            console.log(response.data)
             setUser(response.data)
-            setLoggedIn(true)
+            setLoggedInUser(response.data.userName)
+            if (response.data.userName !== 'anonymousUser' && response.data.userName !== undefined) {
+                setLoggedIn(true)
+            }
         }).catch(() => {
             setUser(undefined)
             setLoggedIn(false)
@@ -68,22 +71,23 @@ function App() {
 
         window.open(host + '/oauth2/authorization/' + provider, '_self')
 
-        setLoggedIn(true);
+
     }
 
     function logout() {
         const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
 
-        window.open(host + '/api/logout', '_self')
+        window.open(host + '/logout', '_self')
     }
 
     return (
         <>
             <div className="NAVBAR">
+                <Link to="/add">Add Workout</Link>
 
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
 
-                <Link to="/add">Add Workout</Link>
+
                 {(loggedInUser && loggedInUser !== 'anonymousUser') && <h2>{loggedInUser}
                     <button onClick={logout}>Logout</button>
                 </h2>}
@@ -91,7 +95,7 @@ function App() {
                     setModal(true)
                 }}>LOGIN</button>}
                 {loggedIn &&
-                    <Link to={`/user/:` + user?.userName}><img src={"frontend/src/assets/customer.png"}
+                    <Link to={`/user/:` + user?.userName}><img src={"./src/assets/customer.png"}
                                                                alt={"Profile Logo"}/></Link>}
 
             </div>
@@ -104,7 +108,12 @@ function App() {
                 <Modal.Body>
 
                     <button onClick={() => login("google")}><img src={"./src/assets/google_logoin.png"}
-                                                                 alt="Google Login"/></button>
+                                                                 style={
+                                                                     {
+                                                                         width: "100px",
+                                                                         height: "auto"
+                                                                     }
+                                                                 } alt="Google Login"/></button>
                     <button onClick={() => login("github")}><img src={"./src/assets/GithubLoginWeiß.png"}
                                                                  alt={"Github Login"}/></button>
                 </Modal.Body>

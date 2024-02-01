@@ -20,35 +20,19 @@ class UserServiceTest {
 
     private UserService userService = new UserService(userRepo);
 
-    @Test
-    void createUser() {
-        //ARRANGE
-        String userName = "Test1";
-        String password = "1234";
-        UserResponse expected = new UserResponse("Test1", new ArrayList<>());
-        Boolean create = false;
-        when(userRepo.existsByUserName(userName)).thenReturn(create);
-
-
-        //ACT
-        UserResponse actual = userService.createNewUser(userName, password);
-
-        //ASSERT
-        assertEquals(actual, expected);
-    }
 
     @Test
     void getUser() {
         //ARRANGE
         String userName = "Test1";
         String password = "1234";
-        UserResponse expected = new UserResponse("Test1", new ArrayList<>());
+        User expected = new User("Test1", new ArrayList<>());
         when(userRepo.findByUserName(expected.userName()))
                 .thenReturn(Optional.of(
-                        new User("Test1", "1234", new ArrayList<>())));
+                        new User("Test1", new ArrayList<>())));
 
         //ACT
-        UserResponse actual = userService.getUser(userName, password);
+        User actual = userService.getUser(userName);
 
         //ASSERT
         assertEquals(actual, expected);
@@ -59,7 +43,7 @@ class UserServiceTest {
         //ARRANGE
         UserWorkout toBeAdded = new UserWorkout("test2", "test2",
                 1, 1, 1, 1, 15);
-        UserRequest userRequest = new UserRequest("test1", "1234", List.of(toBeAdded));
+        UserRequest userRequest = new UserRequest("test1", List.of(toBeAdded));
 
 
         UserResponse expected = new UserResponse("test1", List.of(new UserWorkout("test1", "test1",
@@ -71,7 +55,7 @@ class UserServiceTest {
                 (new UserWorkout("test1", "test1",
                         1, 1, 1, 1, 15))));
         when(userRepo.findByUserName(userRequest.userName())).thenReturn(Optional.of(new User(userRequest.userName(),
-                userRequest.password(), List.of(new UserWorkout("test1", "test1",
+                List.of(new UserWorkout("test1", "test1",
                 1, 1, 1, 1, 15)))));
         //ACT
         UserResponse actual = userService.addWorkoutToUser(userRequest);
@@ -87,7 +71,7 @@ class UserServiceTest {
         UserWorkout toBeDeleted = new UserWorkout("test1", "test1",
                 1, 1, 1, 1, 1);
         UserResponse expected = new UserResponse("test1", new ArrayList<>());
-        User userDTO = new User("test1", "1234", List.of(toBeDeleted));
+        User userDTO = new User("test1", List.of(toBeDeleted));
         when(userRepo.findByUserName(userName)).thenReturn(Optional.of(userDTO));
 
         //ACT
@@ -101,7 +85,7 @@ class UserServiceTest {
     void deleteUserTest() {
         //ARRANGE
         String userName = "test1";
-        User user = new User("test1", "123", new ArrayList<>());
+        User user = new User("test1", new ArrayList<>());
         Boolean expected = true;
         when(userRepo.existsUserByUserName(userName)).thenReturn(expected);
 
@@ -109,40 +93,6 @@ class UserServiceTest {
 
         verify(userRepo, times(1)).deleteByUserName(userName);
         verifyNoMoreInteractions(userRepo);
-    }
-
-
-    @Test
-    void loginTest() {
-        //ARRANGE
-        String userName = "test1";
-        String password = "1234";
-        User user = new User("test1", "1234", new ArrayList<>());
-        Boolean expected = true;
-
-        when(userRepo.findByUserName(userName)).thenReturn(Optional.of(user));
-        //ACT
-        Boolean actual = userService.login(userName, password);
-
-        //ASSERT
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void logoutTest() {
-        //ARRANGE
-        String userName = "test1";
-        User user = new User("test1", "1234", new ArrayList<>());
-        Boolean expected = true;
-
-        when(userRepo.findByUserName(userName)).thenReturn(Optional.of(user));
-
-        //ACT
-        Boolean actual = userService.logout(userName);
-
-        //ASSERT
-        assertEquals(expected, actual);
-
     }
 
 }

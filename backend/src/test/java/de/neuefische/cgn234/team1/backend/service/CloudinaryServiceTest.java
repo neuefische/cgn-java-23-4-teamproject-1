@@ -17,15 +17,16 @@ class CloudinaryServiceTest {
 
     private final Cloudinary mockCloudinary = mock(Cloudinary.class);
 
-    private final WorkoutService mockWorkoutService = mock(WorkoutService.class);
+    private final UserService mockWorkoutService = mock(UserService.class);
 
     @Test
     void uploadFileTest_whenFileIsProvided_whenReturnUrlToFile() throws IOException {
         // ARRANGE
         MultipartFile mockFile = mock(MultipartFile.class);
         Map<String, Object> mockResponse = Map.of("secure_url", "http://example.com/image");
+        String userName = "Test1";
 
-        String workoutId = "1";
+        String workoutName = "1";
         when(mockFile.getOriginalFilename()).thenReturn("image.png");
         when(mockFile.getBytes()).thenReturn(new byte[]{1, 2, 3, 4, 5});
         when(mockCloudinary.uploader()).thenReturn(mock(Uploader.class));
@@ -33,11 +34,11 @@ class CloudinaryServiceTest {
 
         CloudinaryService serviceUnderTest = new CloudinaryService(mockCloudinary, mockWorkoutService);
         // ACT
-        String result = serviceUnderTest.uploadFile(mockFile, workoutId);
+        String result = serviceUnderTest.uploadFile(mockFile, userName, workoutName);
 
         // ASSERT
         assertEquals("http://example.com/image", result);
-        verify(mockWorkoutService).attachPhoto(workoutId, result);
+        verify(mockWorkoutService).attachPhoto(userName, result, workoutName);
         verifyNoMoreInteractions(mockWorkoutService);
     }
 }

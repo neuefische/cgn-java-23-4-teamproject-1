@@ -37,11 +37,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(authorizeHttpRequests ->
-                        authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/*").authenticated()
+                        authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/me").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/upload/*").authenticated()
                                 .requestMatchers(HttpMethod.POST, "api/workouts").authenticated()
                                 .requestMatchers(HttpMethod.POST, "api/workouts/generate").authenticated()
@@ -54,6 +53,7 @@ public class SecurityConfig {
                 .oauth2Login(c -> {
                     try {
                         c.init(http);
+                        c.loginPage("/");
                         if (environment.equals("prod")) {
                             c.defaultSuccessUrl("/", true);
                         } else {
@@ -65,9 +65,10 @@ public class SecurityConfig {
                 })
                 .logout(logout -> {
                     if (environment.equals("prod")) {
-                        logout.logoutUrl("/api/logout").logoutSuccessHandler((request, response, authentication) -> response.setStatus(200)).permitAll();
+
+                        logout.logoutSuccessUrl("/");
                     } else {
-                        logout.logoutUrl("/api/logout").logoutSuccessHandler((request, response, authentication) -> response.setStatus(200)).permitAll();
+                        logout.logoutSuccessUrl("http://localhost:5173");
                     }
                 });
         return http.build();
