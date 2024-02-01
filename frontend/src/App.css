@@ -367,11 +367,22 @@ div .Addworkout {
     transition: opacity 500ms ease-in-out;
     background-color: transparent;
     justify-self: center;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 }
 
 .ReactModal__Overlay--after-open {
     opacity: 0.1;
     justify-self: center;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
+
 }
 
 .ReactModal {
@@ -381,21 +392,38 @@ div .Addworkout {
     position: relative;
     top: 50%;
     left: 50%;
+
 }
 
 .ReactModal__Body--open {
     overflow: hidden;
     background-color: transparent;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 
 }
 
 div .modal-content {
     background-color: transparent;
     border-color: transparent;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 }
 
 .modal-dialog {
     top: 40%;
+    transform: translate(-50%, -50%);
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 
 }
 
@@ -474,4 +502,23 @@ div .modal-content {
 
 .RegisterForm-h3 {
     align-self: center;
+}
+
+.modal-content .ModalLogin {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: rgba(255, 255, 255, 0.03);
+    border-width: 10px;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.05);
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    align-content: space-between;
+    text-align: center;
+    font-family: Avenir, serif;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 3rem;
+    margin: 3rem;
+    height: fit-content;
 }

@@ -99,31 +99,38 @@ function App() {
                                                                alt={"Profile Logo"}/></Link>}
 
             </div>
-            <Modal show={modal} onHide={() => {
-                setModal(false)
-            }}>
-                <Modal.Header closeButton>
-                    <Modal.Title>LOGIN</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+            <div className="ModalLogin">
+                <Modal show={modal} onHide={() => {
+                    setModal(false)
+                }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>LOGIN</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
 
-                    <button onClick={() => login("google")}><img src={"./src/assets/google_logoin.png"}
-                                                                 style={
-                                                                     {
-                                                                         width: "100px",
-                                                                         height: "auto"
-                                                                     }
-                                                                 } alt="Google Login"/></button>
-                    <button onClick={() => login("github")}><img src={"./src/assets/GithubLoginWeiß.png"}
-                                                                 alt={"Github Login"}/></button>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button onClick={() => {
-                        setModal(false)
-                    }}>Close
-                    </button>
-                </Modal.Footer>
-            </Modal>
+                        <button onClick={() => login("google")}><img src={"./src/assets/google_logoin.png"}
+                                                                     style={
+                                                                         {
+                                                                             width: "300px",
+                                                                             height: "auto"
+                                                                         }
+                                                                     } alt="Google Login"/></button>
+                        <button onClick={() => login("github")}><img src={"./src/assets/GithubLoginWeiß.png"}
+                                                                     style={
+                                                                         {
+                                                                             width: "300px",
+                                                                             height: "auto"
+                                                                         }
+                                                                     } alt={"Github Login"}/></button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button onClick={() => {
+                            setModal(false)
+                        }}>Close
+                        </button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
             <Routes>
                 <Route path={"/"}
                        element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
