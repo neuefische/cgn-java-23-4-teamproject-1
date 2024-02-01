@@ -16,7 +16,8 @@ import static org.mockito.Mockito.*;
 
 class WorkoutServiceTest {
     private final WorkoutRepository workoutRepository = mock(WorkoutRepository.class);
-    private WorkoutService workoutService = new WorkoutService(workoutRepository);private final UUID idService = mock(UUID.class);
+    private WorkoutService workoutService = new WorkoutService(workoutRepository);
+    private final UUID idService = mock(UUID.class);
 
     @Test
     void getAll() {
@@ -101,5 +102,5 @@ class WorkoutServiceTest {
         //ASSERT
         assertThrows(IllegalArgumentException.class, () ->
                 workoutService.createWorkout(new RequestWorkout("test1", "test1")));
-        }
+    }
 }

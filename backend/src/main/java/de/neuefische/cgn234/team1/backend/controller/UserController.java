@@ -1,61 +1,84 @@
 package de.neuefische.cgn234.team1.backend.controller;
 
+import de.neuefische.cgn234.team1.backend.model.User;
+import de.neuefische.cgn234.team1.backend.model.dto.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.dto.UserResponse;
-import de.neuefische.cgn234.team1.backend.model.submodel.UserRequest;
 import de.neuefische.cgn234.team1.backend.model.submodel.UserWorkout;
 import de.neuefische.cgn234.team1.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public boolean login(@RequestBody UserRequest userRequest) {
-        return userService.login(userRequest.userName(), userRequest.password());
-    }
 
-    @GetMapping("/logout")
-    @ResponseStatus(HttpStatus.OK)
-    public boolean logout(@RequestBody String userName) {
-        return userService.logout(userName);
-    }
-
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@RequestBody UserRequest userRequest) {
-        return userService.createNewUser(userRequest.userName(), userRequest.password());
-    }
-
-    @GetMapping("/{userName}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserResponse getUser(@PathVariable String userName, @RequestBody String password) {
-        return userService.getUser(userName, password);
-    }
-
-    @PutMapping("/{userName}/addWorkout")
+    @PutMapping("/addWorkout")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserResponse addWorkoutToUser(@PathVariable String userName, @RequestBody UserRequest userRequest) {
+    public UserResponse addWorkoutToUser(@RequestParam String userName, @RequestBody UserRequest userRequest) {
         return userService.addWorkoutToUser(userRequest);
     }
 
-    @DeleteMapping("/{userName}/deleteWorkout")
+    @DeleteMapping("/deleteWorkout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public UserResponse deleteWorkoutFromUser(@PathVariable String userName, @RequestBody UserWorkout workout) {
+    public UserResponse deleteWorkoutFromUser(@RequestParam String userName, @RequestBody UserWorkout workout) {
         return userService.deleteWorkoutFromUser(userName, workout);
     }
 
-    @DeleteMapping("/delete/{userName}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteUser(@PathVariable String userName) {
+    @DeleteMapping("/deleteUser")
+    public boolean deleteUser(@RequestParam String userName) {
         return userService.deleteUser(userName);
+    }
+
+    @GetMapping("/me")
+    public User getMe() throws IllegalArgumentException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth instanceof OAuth2AuthenticationToken token) {
+            if (token.getPrincipal().getAttributes().get("iss") != null) {
+                return userService.getUser(token.getPrincipal().getAttributes().get("email").toString());
+            }
+            return userService.getUser(token.getPrincipal().getAttributes().get("login").toString());
+        }
+
+
+        throw new IllegalArgumentException("Not logged in");
     }
 
 
 }
+/* if (principal == null) {
+        return null;
+        }
+
+Object principalObject = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principalObject instanceof OAuth2User) {
+OAuth2User oAuth2User = (OAuth2User) principalObject;
+
+            if (principal.getAttribute("iss") != null) {
+        if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
+        System.out.println("Security: " + oAuth2User.getAttribute("email"));
+        System.out.println("Principal: " + principal.getAttribute("email"));
+        }
+        } else {
+        System.out.println("Security: " + oAuth2User.getAttribute("login"));
+        System.out.println("Principal: " + principal.getAttribute("login"));
+        }
+        }
+
+        if (principal.getAttribute("iss") != null) {
+        if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
+        return principal.getAttribute("email");
+            }
+                    }
+                    return principal.getAttribute("login");
+    }*/

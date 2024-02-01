@@ -16,6 +16,8 @@ public interface UserRepo extends MongoRepository<User, String> {
 
     List<UserWorkout> getWorkoutListByUserName(String userName);
 
-    Boolean deleteByUserName(String userName);
+    void deleteByUserName(String userName);
+
+    boolean existsUserByUserName(String userName);
 
 }
