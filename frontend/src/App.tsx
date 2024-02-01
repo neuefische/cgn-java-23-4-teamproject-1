@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import {Workout} from "./model/Workout.tsx";
 import axios from "axios";
 import {Link, Route, Routes} from "react-router-dom";
@@ -8,10 +7,11 @@ import WorkoutDetail from "./components/WorkoutDetail.tsx";
 import WorkoutEdit from "./components/WorkoutEdit.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css'
-import LoginPage from "./components/LoginPage.tsx";
 import UserPage from "./components/UserPage.tsx";
-import RegisterPage from "./components/RegisterPage.tsx";
 import {User} from "./model/User.tsx";
+import Modal from "react-bootstrap/Modal";
+import {useEffect, useState} from "react";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
     const [user, setUser] = useState<User>()
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
     const [loggedInUser, setLoggedInUser] = useState<string>("")
+    const [modal, setModal] = useState<boolean>(false)
 
     function getAllWorkouts() {
         axios.get("/api/workouts").then(response =>
@@ -73,7 +74,7 @@ function App() {
     function logout() {
         const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
 
-        window.open(host + '/logout', '_self')
+        window.open(host + '/api/logout', '_self')
     }
 
     return (
@@ -83,27 +84,47 @@ function App() {
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
 
                 <Link to="/add">Add Workout</Link>
-                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
-                    <button onClick={() => login("google")}>Google Login</button>}
-                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
-                    <button onClick={() => login("github")}>Github Login</button>}
                 {(loggedInUser && loggedInUser !== 'anonymousUser') && <h2>{loggedInUser}
                     <button onClick={logout}>Logout</button>
                 </h2>}
-                {!loggedIn && <button type={"button"} onClick={login}>LOGIN</button>}
+                {!loggedIn && <button type={"button"} onClick={() => {
+                    setModal(true)
+                }}>LOGIN</button>}
                 {loggedIn &&
-                    <Link to={`/user/:` + user?.userName}><img src={"frontend/src/assets/customer.png"}/></Link>}
+                    <Link to={`/user/:` + user?.userName}><img src={"frontend/src/assets/customer.png"}
+                                                               alt={"Profile Logo"}/></Link>}
 
             </div>
+            <Modal show={modal} onHide={() => {
+                setModal(false)
+            }}>
+                <Modal.Header closeButton>
+                    <Modal.Title>LOGIN</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
 
+                    <button onClick={() => login("google")}><img src={"./src/assets/google_logoin.png"}
+                                                                 alt="Google Login"/></button>
+                    <button onClick={() => login("github")}><img src={"./src/assets/GithubLoginWeiß.png"}
+                                                                 alt={"Github Login"}/></button>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={() => {
+                        setModal(false)
+                    }}>Close
+                    </button>
+                </Modal.Footer>
+            </Modal>
             <Routes>
                 <Route path={"/"}
                        element={<WorkoutGallery deleteWorkout={deleteWorkout} workoutList={workoutList}/>}/>
-                <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
+
+                <Route element={<ProtectedRoute user={user} loggedInUser={loggedInUser}/>}>
+                    <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
+                    <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
+                </Route>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
-                <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
-                <Route path={"/login"} element={<LoginPage getUser={getUser}/>}/>
-                <Route path={"/register"} element={<RegisterPage/>}/>
+
                 {user && <Route path={`/user/:` + user?.userName}
                                 element={<UserPage workoutList={workoutList} user={user}/>}/>}
             </Routes>

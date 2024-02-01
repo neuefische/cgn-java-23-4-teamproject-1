@@ -65,9 +65,9 @@ public class SecurityConfig {
                 })
                 .logout(logout -> {
                     if (environment.equals("prod")) {
-                        logout.logoutSuccessUrl("/").permitAll();
+                        logout.logoutUrl("/api/logout").logoutSuccessHandler((request, response, authentication) -> response.setStatus(200)).permitAll();
                     } else {
-                        logout.logoutSuccessUrl("http://localhost:5173").permitAll();
+                        logout.logoutUrl("/api/logout").logoutSuccessHandler((request, response, authentication) -> response.setStatus(200)).permitAll();
                     }
                 });
         return http.build();

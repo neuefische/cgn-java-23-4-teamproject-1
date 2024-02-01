@@ -39,6 +39,7 @@ public class UserController {
 
     @GetMapping("/me")
     public User getMe() throws IllegalArgumentException {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth instanceof OAuth2AuthenticationToken token) {
@@ -51,3 +52,30 @@ public class UserController {
 
 
 }
+/* if (principal == null) {
+        return null;
+        }
+
+Object principalObject = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principalObject instanceof OAuth2User) {
+OAuth2User oAuth2User = (OAuth2User) principalObject;
+
+            if (principal.getAttribute("iss") != null) {
+        if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
+        System.out.println("Security: " + oAuth2User.getAttribute("email"));
+        System.out.println("Principal: " + principal.getAttribute("email"));
+        }
+        } else {
+        System.out.println("Security: " + oAuth2User.getAttribute("login"));
+        System.out.println("Principal: " + principal.getAttribute("login"));
+        }
+        }
+
+        if (principal.getAttribute("iss") != null) {
+        if (principal.getAttribute("iss").toString().contains("accounts.google.com")) {
+        return principal.getAttribute("email");
+            }
+                    }
+                    return principal.getAttribute("login");
+    }*/
