@@ -1,5 +1,3 @@
-
-
 export type Workout = {
     id: string,
     workoutName: string,

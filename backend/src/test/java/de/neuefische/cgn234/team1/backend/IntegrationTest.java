@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -114,7 +115,8 @@ class IntegrationTest {
 
         // ACT
         MvcResult result = mockMvc.perform(delete("/api/workouts/1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(oidcLogin().userInfoToken(token -> token.claim("login", "test-user"))))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -126,7 +128,8 @@ class IntegrationTest {
     void deleteWorkout_nonExistingWorkout_shouldReturnFalse() throws Exception {
         // ACT
         MvcResult result = mockMvc.perform(delete("/api/workouts/nonexistent")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(oidcLogin().userInfoToken(token -> token.claim("login", "test-user"))))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -152,6 +155,7 @@ class IntegrationTest {
         // ACT
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/workouts/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(oidcLogin().userInfoToken(token -> token.claim("login", "test-user")))
                         .content(updatedWorkoutJson))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(updatedWorkoutJson))
@@ -166,6 +170,7 @@ class IntegrationTest {
         // ACT
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/workouts/123")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(oidcLogin().userInfoToken(token -> token.claim("login", "test-user")))
                         .content("""
                                 {
                                     "id": "1",
@@ -187,6 +192,7 @@ class IntegrationTest {
         //ACT
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/workouts")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(oidcLogin().userInfoToken(token -> token.claim("login", "test-user")))
                         .content("""
                                         {"id": "1",
                                 "workoutName": "test1",

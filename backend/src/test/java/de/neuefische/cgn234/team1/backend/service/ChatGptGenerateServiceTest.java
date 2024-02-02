@@ -21,8 +21,8 @@ class ChatGptGenerateServiceTest {
     @Test
     void testGenerateExercise() {
         String inputContent = "nothing";
-        String mockDescription = "test2";
-        String mockTitle = "test1";
+        String mockDescription = "test";
+        String mockTitle = "test";
 
         when(chatGptService.chatGptDescription(inputContent)).thenReturn(mockDescription);
         when(chatGptService.chatGptTitel(mockDescription)).thenReturn(mockTitle);

@@ -28,6 +28,7 @@ public class WorkoutService {
             return workoutToBeCreated;
         } else throw new IllegalArgumentException("Workout already exists");
     }
+
     public Workout getById(String id) {
         return workoutRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }

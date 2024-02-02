@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 export default function WorkoutEdit() {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
     const [description, setDescription] = useState("");
     const [workoutName, setWorkoutName] = useState("");

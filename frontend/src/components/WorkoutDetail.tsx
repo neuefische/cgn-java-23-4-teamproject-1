@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import WorkoutPhotoUpload from "./WorkoutPhotoUpload.tsx";
 
+
 export default function WorkoutDetail() {
     const params = useParams()
     const id: string = params.id as string

@@ -12,27 +12,78 @@ html {
     align-content: center;
     height: 100%;
     width: 100%;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    margin-top: 30rem;
 }
 
-.WorkoutBox{
-    background: rgba(255, 255, 255, 0.48);
+.HomeLayout .WorkoutBox {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    align-content: space-between;
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(179, 179, 179, 0.09);
     text-align: center;
     font-family: Avenir, serif;
+    font-size: x-large;
     font-weight: bold;
-    margin: 3rem;
     padding: 3rem;
+    margin: 3rem;
     height: fit-content;
-    width: 25rem;
+    width: 20rem;
     justify-content: flex-start;
+}
+
+.WorkoutBox h3 {
+    font-size: x-large;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    font-weight: 450;
+    letter-spacing: .25rem;
+    margin-bottom: 1rem;
+
+}
+
+.WorkoutBox p {
+    font-size: large;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(179, 179, 179, 0.09);
+    padding: 1rem;
+
+}
+
+.WorkoutBoxButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+}
+
+.WorkoutBoxButtons button {
+    font-size: large;
+    padding: 0.5rem;
+    margin: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgb(128, 96, 255);
+}
+
+.WorkoutBoxButtons button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: 0.15s;
+    width: 12rem;
+    height: auto;
+    letter-spacing: 0.25rem;
 }
 
 body {
     background-color: black;
-    background-image: linear-gradient(45grad,black, rgba(255, 255, 255, 0.12),black);
+    background-image: linear-gradient(45grad, black, rgba(255, 255, 255, 0.12), black);
     display: flex;
     flex-wrap: wrap;
     color: antiquewhite;
@@ -50,17 +101,22 @@ div .Addworkout {
 }
 
 .AddWorkout {
-    background: rgba(255, 255, 255, 0.48);
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    align-content: space-between;
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(179, 179, 179, 0.09);
-    display: flex;
-    flex-direction: column;
-    padding: 4rem;
-    justify-items: center;
-    justify-content: center;
     text-align: center;
+    font-family: Avenir, serif;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 3rem;
+    margin: 3rem;
+    height: fit-content;
 }
 
 .AddWorkout form {
@@ -98,12 +154,10 @@ div .Addworkout {
     justify-content: space-between;
     flex-wrap: wrap;
     margin: 1rem;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
     color: rgba(128, 96, 255, 0.75);
-    width: 10rem;
-    height: auto;
     border-color: transparent;
-    font-size: larger;
+    font-size: xx-large;
     letter-spacing: .15rem;
     font-weight: 500;
 }
@@ -113,17 +167,17 @@ div .Addworkout {
     justify-content: space-between;
     flex-wrap: wrap;
     margin: 1rem;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #399629;
-    width: 10rem;
+    font-size: xx-large;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgb(53, 156, 28);
     height: auto;
     border-color: transparent;
-    font-size: larger;
     letter-spacing: .15rem;
     font-weight: 500;
 }
 
 .generateButton:active {
+
     background-color: rgba(0, 0, 0, 0.2);
     transition: 0.15s;
     width: 12rem;
@@ -162,6 +216,7 @@ div .Addworkout {
     outline: none;
     border: 2px solid #ffffff;
 }
+
 #root {
     height: 100%;
     width: 100%;
@@ -169,6 +224,7 @@ div .Addworkout {
     justify-content: center;
     align-items: center;
 }
+
 .WorkoutEdit-form {
     display: flex;
     flex-direction: column;
@@ -181,6 +237,7 @@ div .Addworkout {
     max-width: 400px;
     color: #ffffff;
 }
+
 .WorkoutEdit-form-input,
 .WorkoutEdit-form-h5 {
     width: 100%;
@@ -196,17 +253,21 @@ div .Addworkout {
     background-color: transparent;
     margin-bottom: 8px;
 }
+
 .WorkoutEdit-form-input,
 .editButton {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
+
 .WorkoutEdit-form-input:focus {
     border-color: #757575;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
+
 .WorkoutEdit-form-input::placeholder {
     color: #999;
 }
+
 .editButton {
     background-color: rgb(247, 235, 217);
     color: rgb(29, 29, 29);
@@ -217,12 +278,15 @@ div .Addworkout {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .editButton:hover {
     opacity: 0.7;
 }
+
 .editButton:active {
     opacity: 0.5;
 }
+
 .WorkoutEdit-save {
     background-color: #333;
     color: #fff;
@@ -236,9 +300,11 @@ div .Addworkout {
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .WorkoutEdit-save:hover {
     background-color: #444;
 }
+
 .WorkoutEdit-save:active {
     transform: translateY(2px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -301,11 +367,22 @@ div .Addworkout {
     transition: opacity 500ms ease-in-out;
     background-color: transparent;
     justify-self: center;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 }
 
 .ReactModal__Overlay--after-open {
     opacity: 0.1;
     justify-self: center;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
+
 }
 
 .ReactModal {
@@ -315,21 +392,38 @@ div .Addworkout {
     position: relative;
     top: 50%;
     left: 50%;
+
 }
 
 .ReactModal__Body--open {
     overflow: hidden;
     background-color: transparent;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 
 }
 
 div .modal-content {
     background-color: transparent;
     border-color: transparent;
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 }
 
 .modal-dialog {
     top: 40%;
+    transform: translate(-50%, -50%);
+    border: rgba(255, 255, 255, 0.05);
+    border-width: thick;
+    border-radius: 16px;
+    align-content: center;
+    align-items: center;
 
 }
 
@@ -341,7 +435,7 @@ div .modal-content {
     align-content: center;
     position: fixed;
     top: 0;
-    padding-top: 5rem;
+    padding-top: 3rem;
     padding-bottom: 1rem;
     z-index: 10;
     padding-left: 5rem;
@@ -355,6 +449,9 @@ div .modal-content {
     font-size: 2rem;
     font-weight: 500;
     text-align: center;
+    align-self: center;
+    align-content: center;
+
 }
 
 .NAVBAR a {
@@ -366,4 +463,94 @@ div .modal-content {
     padding: 0.5rem;
     border-radius: 0.5rem;
     transition: background-color 0.3s;
+}
+
+.NAVBAR a img {
+    height: 4rem;
+    width: 4rem;
+}
+
+
+.hideImg {
+    background-color: rgb(44, 44, 44);
+    width: 30px;
+    height: 30px;
+}
+
+.hideButton {
+    display: inline;
+    border: none;
+    box-shadow: none;
+    background-color: rgb(44, 44, 44);
+}
+
+.hideButtonDiv {
+    display: flex;
+    gap: 1px;
+}
+
+.HidePasswordInput {
+    width: 100%;
+    padding: 12px;
+    margin: 0;
+    border: 1px solid #404040;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    color: #ddd;
+}
+
+
+.RegisterForm-h3 {
+    align-self: center;
+}
+
+.modal-content .ModalLogin {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: rgba(255, 255, 255, 0.03);
+    border-width: 10px;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.05);
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    align-content: space-between;
+    text-align: center;
+    font-family: Avenir, serif;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 3rem;
+    margin: 3rem;
+    height: fit-content;
+}
+
+.UserWorkout {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    align-content: space-between;
+    border-radius: 16px;
+    font-family: Avenir, serif;
+    font-size: xxx-large;
+}
+
+.UserWorkoutBox {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    align-items: center;
+    align-content: space-between;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(179, 179, 179, 0.09);
+    text-align: center;
+    font-family: Avenir, serif;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 3rem;
+    margin: 3rem;
+    height: fit-content;
+    width: 20rem;
+    justify-content: flex-start;
 }

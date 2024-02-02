@@ -16,10 +16,11 @@ public class UploadController {
         this.cloudinaryService = cloudinaryService;
     }
 
-    @PostMapping("/image/{id}")
+    @PostMapping("/image/{userName}")
     @ResponseStatus(HttpStatus.CREATED)
     public String uploadImage(@RequestPart(name = "file") MultipartFile file,
-                              @PathVariable String id) throws IOException {
-        return cloudinaryService.uploadFile(file, id);
+                              @PathVariable String userName,
+                              @RequestPart(name = "workoutName") String workoutName) throws IOException {
+        return cloudinaryService.uploadFile(file, workoutName, userName);
     }
 }
