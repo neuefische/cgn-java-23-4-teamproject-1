@@ -32,7 +32,7 @@ public class UserService {
     private User createUser(String userName) {
         User user = new User(userName, new ArrayList<>());
         userRepo.save(user);
-        return user;
+        return userRepo.findByUserName(userName).get();
     }
 
     public UserResponse addWorkoutToUser(UserRequest userRequest) {

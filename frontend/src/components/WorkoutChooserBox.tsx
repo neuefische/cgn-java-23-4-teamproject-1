@@ -3,7 +3,7 @@ import {Workout} from "../model/Workout.tsx";
 
 type WorkoutProps = {
     workout: Workout
-    addWorkout: (workout: Workout, event: React.MouseEvent<HTMLButtonElement>) => void;
+    addWorkout: (workout: Workout) => void;
     openEdit: () => void;
 
 }
@@ -13,8 +13,9 @@ export default function WorkoutBox(props: WorkoutProps) {
     const workout: Workout = props.workout;
 
 
-    function add(event: React.MouseEvent<HTMLButtonElement>) {
-        props.addWorkout(workout, event);
+    function add() {
+
+        props.addWorkout(workout);
         props.openEdit();
     }
 

@@ -95,7 +95,7 @@ function App() {
                     setModal(true)
                 }}>LOGIN</button>}
                 {loggedIn &&
-                    <Link to={`/user/:` + user?.userName}><img src={"./src/assets/customer.png"}
+                    <Link to={`/user/` + user?.userName}><img src={"./src/assets/customer.png"}
                                                                alt={"Profile Logo"}/></Link>}
 
             </div>
@@ -138,11 +138,12 @@ function App() {
                 <Route element={<ProtectedRoute user={user} loggedInUser={loggedInUser}/>}>
                     <Route path={"/add"} element={<AddWorkout addWorkout={addWorkout}/>}/>
                     <Route path={"/workouts/:id/edit"} element={<WorkoutEdit/>}/>
+                    <Route path={"/user/:workout.workoutname"} element={<WorkoutDetail/>}/>
                 </Route>
                 <Route path={"workouts/:id"} element={<WorkoutDetail/>}/>
 
                 {user && <Route path={`/user/:` + user?.userName}
-                                element={<UserPage workoutList={workoutList} user={user}/>}/>}
+                                element={<UserPage workouts={workoutList} user={user}/>}/>}
             </Routes>
         </>
     )
