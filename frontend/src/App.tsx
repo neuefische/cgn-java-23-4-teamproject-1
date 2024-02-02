@@ -68,8 +68,6 @@ function App() {
                 <Link to="/"><h1>WORKOUT BUDDY</h1></Link>
                 {(!loggedInUser || loggedInUser === 'anonymousUser') &&
                     <button onClick={() => login("google")}>Google Login</button>}
-                {(!loggedInUser || loggedInUser === 'anonymousUser') &&
-                    <button onClick={() => login("github")}>Github Login</button>}
                 {(loggedInUser && loggedInUser !== 'anonymousUser') && <h2>{loggedInUser}
                     <button onClick={logout}>Logout</button>
                 </h2>}
